@@ -83,6 +83,22 @@ const AdminPage: React.FC = () => {
       });
   };
 
+  const handleDeleteProject = (id: number) => {
+    fetch(`http://localhost:3000/projects/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(() => {
+        setProjects(projects.filter((project) => project.id !== id));
+      })
+      .catch((error) => {
+        console.error("Error deleting project:", error);
+        alert("An error occurred while deleting the project.");
+      });
+  };
+
   // Implement update and delete functions similarly
 
   if (!token) {
@@ -109,6 +125,7 @@ const AdminPage: React.FC = () => {
 
   return (
     <S.AdminContainer>
+      <S.BackButton onClick={() => navigate("/")}>Back to Home</S.BackButton>
       <h2>Admin Portal</h2>
       <S.Form>
         <input
@@ -140,7 +157,26 @@ const AdminPage: React.FC = () => {
         />
         <button onClick={handleAddProject}>Add Project</button>
       </S.Form>
-      {/* Render existing projects with options to update or delete */}
+      <S.ProjectList>
+        {projects.map((project) => (
+          <S.ProjectItem key={project.id}>
+            <span>{project.name}</span>
+            <div>
+              {/* Update and Delete buttons */}
+              <S.EditButton
+                onClick={() => {
+                  /* Implement edit functionality */
+                }}
+              >
+                Edit
+              </S.EditButton>
+              <S.DeleteButton onClick={() => handleDeleteProject(project.id)}>
+                Delete
+              </S.DeleteButton>
+            </div>
+          </S.ProjectItem>
+        ))}
+      </S.ProjectList>
     </S.AdminContainer>
   );
 };

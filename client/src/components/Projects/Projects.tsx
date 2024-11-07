@@ -11,13 +11,35 @@ interface Project {
 
 const Projects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("http://localhost:3000/projects")
-      .then((response) => response.json())
-      .then((data) => setProjects(data))
-      .catch((error) => console.error("Error fetching projects:", error));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch projects.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setProjects(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching projects:", error);
+        setError(error.message);
+        setLoading(false);
+      });
   }, []);
+
+  if (loading) {
+    return <S.Message>Loading projects...</S.Message>;
+  }
+
+  if (error) {
+    return <S.Message>Error: {error}</S.Message>;
+  }
 
   return (
     <S.Section>
