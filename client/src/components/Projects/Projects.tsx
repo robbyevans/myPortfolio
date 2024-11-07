@@ -42,23 +42,25 @@ const Projects: React.FC = () => {
   }
 
   return (
-    <S.Section>
-      <S.Title>Projects</S.Title>
-      <S.ProjectGrid>
-        {projects.map((project) => (
-          <S.ProjectCard
-            key={project.id}
-            onClick={() => window.open(project.live_link, "_blank")}
-          >
-            <S.ProjectImage src={project.image_url} alt={project.name} />
-            <S.ProjectInfo>
-              <h3>{project.name}</h3>
-              <p>{project.description}</p>
-            </S.ProjectInfo>
-          </S.ProjectCard>
-        ))}
-      </S.ProjectGrid>
-    </S.Section>
+    <S.SectionContainer>
+      <S.ProjectsWrapper>
+        <S.Title>Projects</S.Title>
+        <S.ProjectGrid>
+          {projects.map((project) => (
+            <S.ProjectCard
+              key={project.id}
+              onClick={() => window.open(project.live_link, "_blank")}
+            >
+              <S.ProjectImage src={project.image_url} alt={project.name} />
+              <S.ProjectInfo>
+                <h3>{project.name}</h3>
+                <p>{project.description}</p>
+              </S.ProjectInfo>
+            </S.ProjectCard>
+          ))}
+        </S.ProjectGrid>
+      </S.ProjectsWrapper>
+    </S.SectionContainer>
   );
 };
 

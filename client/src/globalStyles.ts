@@ -44,6 +44,7 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: underline;
   }
 
+
   /* Other global styles */
 `;
 

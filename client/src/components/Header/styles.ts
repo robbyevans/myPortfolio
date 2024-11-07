@@ -1,17 +1,15 @@
-// src/components/Header/styles.ts
-
 import styled from "styled-components";
 
 export const Header = styled.header`
   text-align: center;
-  padding: 80px 20px;
+  /* padding: 100px 20px; */
+  max-width: 1024px;
+
+  color: ${(props) => props.theme.colors.text};
   position: relative;
-  background: linear-gradient(
-    135deg,
-    ${(props) => props.theme.colors.primary} 0%,
-    ${(props) => props.theme.colors.cardBackground} 100%
-  );
-  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const AdminButton = styled.button`
@@ -26,6 +24,7 @@ export const AdminButton = styled.button`
   border-radius: 5px;
   font-size: 0.9rem;
   transition: background-color 0.3s;
+  font-weight: bold;
 
   &:hover {
     background-color: ${(props) => props.theme.colors.cardHover};
@@ -48,24 +47,35 @@ export const ThemeToggle = styled.button`
   }
 `;
 
+export const ContentWrapper = styled.div`
+  width: 100%;
+  text-align: left;
+`;
+
 export const Title = styled.h1`
-  font-size: 3rem;
+  font-size: 75px;
   margin-bottom: 10px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: ${(props) => props.theme.colors.text};
 `;
 
 export const Description = styled.p`
-  font-size: 1.2rem;
+  font-size: 25px;
+  margin-top: 10px;
+  color: ${(props) => props.theme.colors.text};
 `;
 
 export const Links = styled.div`
-  margin-top: 20px;
+  margin-top: 25px;
 
   a {
     margin: 0 15px;
-    color: #fff;
-    font-size: 1.2rem;
+    color: ${(props) => props.theme.colors.text};
+    font-size: 1.1rem;
+    font-weight: 500;
     transition: color 0.3s;
+    text-decoration: none;
 
     &:hover {
       color: ${(props) => props.theme.colors.cardHover};

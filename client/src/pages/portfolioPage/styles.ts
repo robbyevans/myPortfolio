@@ -1,8 +1,5 @@
-// src/pages/PortfolioPage/styles.ts
 import styled from "styled-components";
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+export const PortfolioContainer = styled.div`
+  margin: 5% 12% 0;
 `;

@@ -15,12 +15,14 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({
   theme,
 }) => {
   return (
-    <S.Container>
-      <Header toggleTheme={toggleTheme} theme={theme} />
-      <Github />
-      <Projects />
+    <>
+      <S.PortfolioContainer>
+        <Header toggleTheme={toggleTheme} theme={theme} />
+        <Github />
+        <Projects />
+      </S.PortfolioContainer>
       <Footer />
-    </S.Container>
+    </>
   );
 };
 

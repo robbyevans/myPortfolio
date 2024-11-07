@@ -1,9 +1,17 @@
 import styled from "styled-components";
 
-export const Section = styled.section`
+export const SectionContainer = styled.section`
   padding: 40px 20px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+
   background-color: ${(props) => props.theme.colors.background};
+`;
+
+export const ProjectsWrapper = styled.div`
+  max-width: 1080px;
+  width: 100%;
 `;
 
 export const Title = styled.h2`
