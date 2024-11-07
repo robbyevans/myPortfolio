@@ -11,6 +11,7 @@ interface Project {
 }
 
 const AdminPage: React.FC = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState<string | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
@@ -30,15 +31,19 @@ const AdminPage: React.FC = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ password }),
+      body: JSON.stringify({ username: email, password }),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.token) {
           setToken(data.token);
         } else {
-          alert("Invalid password");
+          alert("Invalid email or password");
         }
+      })
+      .catch((error) => {
+        console.error("Error during login:", error);
+        alert("An error occurred during login.");
       });
   };
 
@@ -85,6 +90,12 @@ const AdminPage: React.FC = () => {
       <S.LoginContainer>
         <S.BackButton onClick={() => navigate("/")}>Back to Home</S.BackButton>
         <h2>Admin Login</h2>
+        <input
+          type="text"
+          placeholder="Enter email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <input
           type="password"
           placeholder="Enter password"
