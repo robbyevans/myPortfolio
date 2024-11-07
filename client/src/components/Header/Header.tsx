@@ -1,24 +1,27 @@
-// src/components/Header/Header.tsx
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./styles";
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <S.Header>
-      <S.Title>Axel Fuhrmann</S.Title>
+      <S.AdminButton onClick={() => navigate("/admin")}>Admin</S.AdminButton>
+      <S.Title>Evans Portfolio</S.Title>
       <S.Description>
-        Hi 👋 I'm Axel, a Software Engineer based in Berlin.
+        Hi 👋 I'm Evans, a Software Engineer based in Berlin.
       </S.Description>
       <S.Links>
         <a
-          href="https://github.com/axelfuhrmann"
+          href="https://github.com/robbyevans"
           target="_blank"
           rel="noopener noreferrer"
         >
           GitHub
         </a>
         <a
-          href="https://linkedin.com/in/axelfuhrmann"
+          href="https://linkedin.com/in/robbyevans"
           target="_blank"
           rel="noopener noreferrer"
         >
