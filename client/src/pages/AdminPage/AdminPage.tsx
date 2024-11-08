@@ -6,7 +6,7 @@ interface Project {
   id: number;
   name: string;
   description: string;
-  image_url: string;
+  images: File[] | string[];
   live_link: string;
 }
 
@@ -19,7 +19,7 @@ const AdminPage: React.FC = () => {
     id: 0,
     name: "",
     description: "",
-    image_url: "",
+    images: [],
     live_link: "",
   });
 
@@ -62,13 +62,20 @@ const AdminPage: React.FC = () => {
   };
 
   const handleAddProject = () => {
+    const formData = new FormData();
+    formData.append("project[name]", newProject.name);
+    formData.append("project[description]", newProject.description);
+    formData.append("project[live_link]", newProject.live_link);
+    newProject.images.forEach((image) => {
+      formData.append("project[images][]", image);
+    });
+
     fetch("http://localhost:3000/projects", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ project: newProject }),
+      body: formData,
     })
       .then((res) => res.json())
       .then((data) => {
@@ -77,9 +84,13 @@ const AdminPage: React.FC = () => {
           id: 0,
           name: "",
           description: "",
-          image_url: "",
           live_link: "",
+          images: [],
         });
+      })
+      .catch((error) => {
+        console.error("Error adding project:", error);
+        alert("An error occurred while adding the project.");
       });
   };
 
@@ -97,6 +108,12 @@ const AdminPage: React.FC = () => {
         console.error("Error deleting project:", error);
         alert("An error occurred while deleting the project.");
       });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setNewProject({ ...newProject, images: Array.from(e.target.files) });
+    }
   };
 
   // Implement update and delete functions similarly
@@ -142,11 +159,11 @@ const AdminPage: React.FC = () => {
           onChange={handleInputChange}
         />
         <input
-          type="text"
-          name="image_url"
-          placeholder="Image URL"
-          value={newProject.image_url}
-          onChange={handleInputChange}
+          type="file"
+          name="images"
+          multiple
+          accept="image/*"
+          onChange={handleFileChange}
         />
         <input
           type="text"

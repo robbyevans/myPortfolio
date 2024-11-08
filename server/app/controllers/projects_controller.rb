@@ -5,12 +5,12 @@ class ProjectsController < ApplicationController
   # GET /projects
   def index
     @projects = Project.all
-    render json: @projects
+    render json: @projects.map { |project| project_with_images(project) }
   end
 
   # GET /projects/:id
   def show
-    render json: @project
+    render json: project_with_images(@project)
   end
 
   # POST /projects
@@ -54,6 +54,12 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(:name, :description, :image_url, :live_link)
+    params.require(:project).permit(:name, :description, :live_link,images: [])
+  end
+
+  def project_with_images(project)
+    project.as_json.merge(
+      images: project.images.attached? ? project.images.map { |image| url_for(image) } : []
+    )
   end
 end

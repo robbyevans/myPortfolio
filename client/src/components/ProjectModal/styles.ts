@@ -47,3 +47,24 @@ export const ModalInfo = styled.div`
     color: ${(props) => props.theme.colors.text};
   }
 `;
+
+export const ImagesWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+`;
+
+export const LiveLink = styled.a`
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 15px;
+  background-color: ${(props) => props.theme.colors.primary};
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: ${(props) => props.theme.colors.cardHover};
+  }
+`;
