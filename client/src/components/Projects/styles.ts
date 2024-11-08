@@ -1,3 +1,5 @@
+// styles.ts
+
 import styled from "styled-components";
 
 export const SectionContainer = styled.section`
@@ -5,7 +7,6 @@ export const SectionContainer = styled.section`
   text-align: center;
   display: flex;
   justify-content: center;
-
   background-color: ${(props) => props.theme.colors.background};
 `;
 
@@ -35,6 +36,7 @@ export const ProjectCard = styled.div`
   background-color: ${(props) => props.theme.colors.cardBackground};
   transition: transform 0.3s, box-shadow 0.3s;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 300px;
 
   &:hover {
     transform: translateY(-10px) scale(1.02);
@@ -57,11 +59,16 @@ export const ProjectInfo = styled.div`
     font-size: 1.4rem;
     color: ${(props) => props.theme.colors.primary};
   }
+`;
 
-  p {
-    font-size: 1rem;
-    color: ${(props) => props.theme.colors.text};
-  }
+export const Description = styled.p`
+  font-size: 1rem;
+  color: ${(props) => props.theme.colors.text};
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 `;
 
 export const Message = styled.p`

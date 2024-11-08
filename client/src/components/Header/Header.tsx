@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, theme }) => {
           I'm Evans, a{" "}
           <RoughNotation
             type="highlight"
-            color="#8a1515"
+            color={theme === "light" ? "#33e82d" : "#8a1515"}
             show={true}
             animationDuration={800}
           >
@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, theme }) => {
           based in Nairobi. <br /> I'm currently working at{" "}
           <RoughNotation
             type="underline"
-            color="#33e82d"
+            color={theme === "light" ? "#8a1515" : "#33e82d"}
             show={true}
             animationDuration={800}
           >
@@ -48,13 +48,13 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, theme }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Vinhood
+              Vinhood🍷
             </a>
           </RoughNotation>
           , as a staff Frontend Engineer. Visit my{" "}
           <RoughNotation
             type="underline"
-            color="#33e82d"
+            color={theme === "light" ? "#8a1515" : "#33e82d"}
             show={true}
             animationDuration={800}
           >

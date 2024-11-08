@@ -1,5 +1,8 @@
+// Projects.tsx
+
 import React, { useEffect, useState } from "react";
 import * as S from "./styles";
+import ProjectModal from "../ProjectModal/ProjectModal";
 
 interface Project {
   id: number;
@@ -13,6 +16,7 @@ const Projects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   useEffect(() => {
     fetch("http://localhost:3000/projects")
@@ -33,6 +37,28 @@ const Projects: React.FC = () => {
       });
   }, []);
 
+  const handleCardClick = (project: Project) => {
+    setSelectedProject(project);
+  };
+
+  const closeModal = () => {
+    setSelectedProject(null);
+  };
+
+  // Prevent background scrolling when the modal is open
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    // Clean up the effect when the component is unmounted or modal is closed
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [selectedProject]);
+
   if (loading) {
     return <S.Message>Loading projects...</S.Message>;
   }
@@ -49,16 +75,19 @@ const Projects: React.FC = () => {
           {projects.map((project) => (
             <S.ProjectCard
               key={project.id}
-              onClick={() => window.open(project.live_link, "_blank")}
+              onClick={() => handleCardClick(project)}
             >
               <S.ProjectImage src={project.image_url} alt={project.name} />
               <S.ProjectInfo>
                 <h3>{project.name}</h3>
-                <p>{project.description}</p>
+                <S.Description>{project.description}</S.Description>
               </S.ProjectInfo>
             </S.ProjectCard>
           ))}
         </S.ProjectGrid>
+        {selectedProject && (
+          <ProjectModal project={selectedProject} onClose={closeModal} />
+        )}
       </S.ProjectsWrapper>
     </S.SectionContainer>
   );
