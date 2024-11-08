@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const Header = styled.header`
   text-align: center;
-  /* padding: 100px 20px; */
   max-width: 1024px;
 
   color: ${(props) => props.theme.colors.text};
@@ -10,25 +9,6 @@ export const Header = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-export const AdminButton = styled.button`
-  position: absolute;
-  top: 20px;
-  right: 60px;
-  padding: 8px 12px;
-  background-color: ${(props) => props.theme.colors.primary};
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  transition: background-color 0.3s;
-  font-weight: bold;
-
-  &:hover {
-    background-color: ${(props) => props.theme.colors.cardHover};
-  }
 `;
 
 export const ThemeToggle = styled.button`

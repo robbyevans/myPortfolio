@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+
 import * as S from "./styles";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { darkTheme } from "../../theme/darkTheme";
@@ -11,11 +11,8 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ toggleTheme, theme }) => {
-  const navigate = useNavigate();
-
   return (
-    <S.Header>
-      <S.AdminButton onClick={() => navigate("/admin")}>Admin</S.AdminButton>
+    <S.Header data-testid="header-component">
       <S.ThemeToggle onClick={toggleTheme}>
         {theme === "light" ? (
           <FaMoon color={darkTheme.colors.background} />
@@ -23,6 +20,7 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, theme }) => {
           <FaSun />
         )}
       </S.ThemeToggle>
+
       <S.ContentWrapper>
         <S.Title>Evans Rutto</S.Title>
         <S.Description>

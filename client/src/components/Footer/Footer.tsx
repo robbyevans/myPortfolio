@@ -1,8 +1,10 @@
 import React from "react";
 import * as S from "./styles";
+import { useNavigate } from "react-router-dom";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const Footer: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <S.Footer>
       <p>&copy; {new Date().getFullYear()} Made by Evans</p>
@@ -22,6 +24,9 @@ const Footer: React.FC = () => {
           <FaLinkedin size={24} />
         </a>
       </S.SocialLinks>
+      <S.AdminButton onClick={() => navigate("/admin")}>
+        Admin portal
+      </S.AdminButton>
     </S.Footer>
   );
 };

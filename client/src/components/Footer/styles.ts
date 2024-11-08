@@ -3,6 +3,7 @@
 import styled from "styled-components";
 
 export const Footer = styled.footer`
+  position: relative;
   padding: 20px;
   text-align: center;
   background-color: ${(props) => props.theme.colors.cardBackground};
@@ -26,4 +27,11 @@ export const SocialLinks = styled.div`
       vertical-align: middle;
     }
   }
+`;
+export const AdminButton = styled.p`
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  text-decoration: underline;
+  color: ${(props) => props.theme.colors.text};
 `;

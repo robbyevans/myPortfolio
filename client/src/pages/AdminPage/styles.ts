@@ -1,7 +1,10 @@
 import styled from "styled-components";
 
 export const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  justify-content: center;
   margin-top: 50px;
   max-width: 400px;
   margin-left: auto;
@@ -73,7 +76,6 @@ export const Button = styled.button`
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  align-self: flex-start;
   transition: background-color 0.3s;
 
   &:hover {
