@@ -1,5 +1,6 @@
 import React from "react";
 import * as S from "./styles";
+import { ImageData } from "../ProjectModal/types";
 
 interface ProjectModalProps {
   project: {
@@ -7,7 +8,7 @@ interface ProjectModalProps {
     name: string;
     description: string;
     live_link: string;
-    images: string[];
+    images: ImageData[];
   };
   onClose: () => void;
 }
@@ -22,7 +23,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
       <S.ModalContent onClick={handleClick}>
         <S.ImagesWrapper>
           {project.images.map((imageUrl, index) => (
-            <S.ModalImage key={index} src={imageUrl} alt={project.name} />
+            <S.ModalImage key={index} src={imageUrl?.url} alt={project.name} />
           ))}
         </S.ImagesWrapper>
         <S.ModalInfo>

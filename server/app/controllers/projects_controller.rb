@@ -23,14 +23,30 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /projects/:id
-  def update
-    if @project.update(project_params)
-      render json: @project
-    else
-      render json: @project.errors, status: :unprocessable_entity
+ # PATCH/PUT /projects/:id
+ def update
+  if @project.update(project_params)
+    # Attach new images if any
+    if params[:project][:images]
+      params[:project][:images].each do |image|
+        @project.images.attach(image)
+      end
     end
+
+    # Remove images if specified
+    if params[:project][:remove_image_ids]
+      params[:project][:remove_image_ids].each do |image_id|
+        image = @project.images.find(image_id)
+        image.purge
+      end
+    end
+
+    render json: project_with_images(@project)
+  else
+    render json: @project.errors, status: :unprocessable_entity
   end
+end
+
 
   # DELETE /projects/:id
   def destroy
@@ -59,7 +75,13 @@ class ProjectsController < ApplicationController
 
   def project_with_images(project)
     project.as_json.merge(
-      images: project.images.attached? ? project.images.map { |image| url_for(image) } : []
+      images: project.images.attached? ? project.images.map { |image|
+        {
+          url: url_for(image),
+          id: image.id
+        }
+      } : []
     )
   end
+  
 end

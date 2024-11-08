@@ -3,12 +3,13 @@
 import React, { useEffect, useState } from "react";
 import * as S from "./styles";
 import ProjectModal from "../ProjectModal/ProjectModal";
+import { ImageData } from "../ProjectModal/types";
 
 interface Project {
   id: number;
   name: string;
   description: string;
-  images: string[];
+  images: ImageData[];
   live_link: string;
 }
 
@@ -77,7 +78,7 @@ const Projects: React.FC = () => {
               key={project.id}
               onClick={() => handleCardClick(project)}
             >
-              <S.ProjectImage src={project.images[0]} alt={project.name} />
+              <S.ProjectImage src={project.images[0]?.url} alt={project.name} />
               <S.ProjectInfo>
                 <h3>{project.name}</h3>
                 <S.Description>{project.description}</S.Description>
