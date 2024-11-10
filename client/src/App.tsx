@@ -1,4 +1,5 @@
 // src/App.tsx
+
 import { useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -9,11 +10,14 @@ import PortfolioPage from "./pages/portfolioPage/PortfolioPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 
 function App() {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState<"light" | "dark">("light"); // Correctly typed
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("portfolioTheme");
-    if (savedTheme) {
+    const savedTheme = localStorage.getItem("portfolioTheme") as
+      | "light"
+      | "dark"
+      | null;
+    if (savedTheme === "light" || savedTheme === "dark") {
       setTheme(savedTheme);
     }
   }, []);

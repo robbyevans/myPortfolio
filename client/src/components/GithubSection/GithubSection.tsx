@@ -1,13 +1,25 @@
+// src/components/GithubSectionComponent.tsx
+
 import React from "react";
 import GitHubCalendar from "react-github-calendar";
 import * as S from "./styles";
 
-const GithubSectionComponent: React.FC = () => {
+interface GithubSectionComponentProps {
+  theme: "light" | "dark";
+}
+
+const GithubSectionComponent: React.FC<GithubSectionComponentProps> = ({
+  theme,
+}) => {
   return (
     <S.Section>
       <S.Title>GitHub Contributions</S.Title>
       <S.ChartContainer>
-        <GitHubCalendar username="robbyevans" />
+        <GitHubCalendar
+          username="robbyevans"
+          colorScheme={theme}
+          transformData={(data) => data}
+        />
       </S.ChartContainer>
     </S.Section>
   );

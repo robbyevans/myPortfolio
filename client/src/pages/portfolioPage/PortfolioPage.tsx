@@ -7,7 +7,7 @@ import * as S from "./styles";
 
 interface PortfolioPageProps {
   toggleTheme: () => void;
-  theme: string;
+  theme: "light" | "dark";
 }
 
 const PortfolioPage: React.FC<PortfolioPageProps> = ({
@@ -18,7 +18,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({
     <>
       <S.PortfolioContainer>
         <Header toggleTheme={toggleTheme} theme={theme} />
-        <Github />
+        <Github theme={theme} />
         <Projects />
       </S.PortfolioContainer>
       <Footer />
