@@ -1,14 +1,9 @@
 import styled from "styled-components";
 
 export const Header = styled.header`
-  text-align: center;
   max-width: 1024px;
-
   color: ${(props) => props.theme.colors.text};
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 export const ThemeToggle = styled.button`

@@ -6,6 +6,7 @@ export const SectionContainer = styled.section`
   padding: 40px 20px;
   text-align: center;
   display: flex;
+  min-width: 100%;
   justify-content: center;
   background-color: ${(props) => props.theme.colors.background};
 `;

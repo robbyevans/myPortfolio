@@ -5,6 +5,7 @@ import styled from "styled-components";
 export const Section = styled.section`
   padding: 40px 20px;
   text-align: center;
+  width: 100%;
   background-color: ${(props) => props.theme.colors.background};
 `;
 
