@@ -1,5 +1,3 @@
-// src/components/GithubSectionComponent.tsx
-
 import React from "react";
 import GitHubCalendar from "react-github-calendar";
 import * as S from "./styles";

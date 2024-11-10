@@ -25,6 +25,61 @@ export const ModalContent = styled.div`
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 `;
 
+export const CarouselContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 300px;
+`;
+
+export const CarouselImage = styled.img`
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+  transition: opacity 0.5s ease-in-out;
+`;
+
+export const CarouselButtonLeft = styled.button`
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 50%;
+  z-index: 1;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+`;
+
+export const CarouselButtonRight = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 50%;
+  z-index: 1;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+`;
+
 export const ModalImage = styled.img`
   width: 100%;
   height: 300px;
