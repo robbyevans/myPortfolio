@@ -8,8 +8,8 @@ export const Header = styled.header`
 
 export const ThemeToggle = styled.button`
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: -100px;
+  right: -75px;
   background: none;
   border: none;
   color: #fff;
@@ -19,6 +19,11 @@ export const ThemeToggle = styled.button`
 
   &:hover {
     color: ${(props) => props.theme.colors.cardHover};
+  }
+
+  @media (max-width: 600px) {
+    top: -21px;
+    right: -11px;
   }
 `;
 
