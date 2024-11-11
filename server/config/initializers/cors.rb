@@ -2,7 +2,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'http://localhost:5173' # Adjust to your frontend's URL
+    origins 'https://portfolio-frontend-q4sa.onrender.com'
 
     resource '*',
       headers: :any,
