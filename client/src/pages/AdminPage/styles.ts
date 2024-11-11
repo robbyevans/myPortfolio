@@ -166,8 +166,8 @@ export const ImagePreview = styled.div`
   position: relative;
 
   img {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
     object-fit: cover;
     border-radius: 5px;
   }

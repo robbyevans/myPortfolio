@@ -65,9 +65,20 @@ const AdminPage: React.FC = () => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
+      const newFiles = Array.from(e.target.files);
+
+      // Filter out duplicates by comparing filenames
+      const uniqueFiles = newFiles.filter(
+        (newFile) =>
+          !newProject.images.some(
+            (existingImage) =>
+              existingImage instanceof File &&
+              existingImage.name === newFile.name
+          )
+      );
       setNewProject({
         ...newProject,
-        images: [...newProject.images, ...Array.from(e.target.files)],
+        images: [...newProject.images, ...uniqueFiles],
       });
     }
   };

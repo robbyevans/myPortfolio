@@ -30,6 +30,9 @@ class ProjectsController < ApplicationController
     if params[:project][:images]
       params[:project][:images].each do |image|
         @project.images.attach(image)
+        unless @project.images.map(&:filename).include?(image.original_filename)
+          @project.images.attach(image)
+        end
       end
     end
 
