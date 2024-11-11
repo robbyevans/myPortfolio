@@ -1,7 +1,6 @@
 import axios from "axios";
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Project and State Interfaces
 export interface ImageData {
   url: string;
   id: number;
@@ -36,7 +35,7 @@ export const fetchProjects = createAsyncThunk<Project[]>(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get<Project[]>(
-        "http://localhost:3000/projects"
+        "https://portfolio-f0i5.onrender.com/projects"
       );
       return response.data;
     } catch (err) {
@@ -56,7 +55,7 @@ export const addProject = createAsyncThunk<Project, FormData>(
     try {
       const token = getAuthToken(); // Get token from localStorage
       const response = await axios.post<Project>(
-        "http://localhost:3000/projects",
+        "https://portfolio-f0i5.onrender.com/projects",
         formData,
         {
           headers: {
@@ -84,7 +83,7 @@ export const updateProject = createAsyncThunk<
   try {
     const token = getAuthToken(); // Get token from localStorage
     const response = await axios.patch<Project>(
-      `http://localhost:3000/projects/${id}`,
+      `https://portfolio-f0i5.onrender.com/projects/${id}`,
       formData,
       {
         headers: {
@@ -109,7 +108,7 @@ export const deleteProject = createAsyncThunk<number, number>(
   async (id, { rejectWithValue }) => {
     try {
       const token = getAuthToken(); // Get token from localStorage
-      await axios.delete(`http://localhost:3000/projects/${id}`, {
+      await axios.delete(`https://portfolio-f0i5.onrender.com/projects/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
