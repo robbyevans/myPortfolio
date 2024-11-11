@@ -1,4 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+type TOrientation = "right" | "left";
 
 export const ModalOverlay = styled.div`
   position: fixed;
@@ -42,37 +44,23 @@ export const CarouselImage = styled.img`
   transition: opacity 0.5s ease-in-out;
 `;
 
-export const CarouselButtonLeft = styled.button`
+export const CarouselButton = styled.button<{ $orientation: TOrientation }>`
   position: absolute;
   top: 50%;
-  left: 10px;
   transform: translateY(-50%);
+  ${({ $orientation }) =>
+    $orientation === "left"
+      ? css`
+          left: 5px;
+        `
+      : css`
+          right: 5px;
+        `}
   background-color: rgba(0, 0, 0, 0.5);
   border: none;
   color: white;
   font-size: 24px;
-  cursor: pointer;
   padding: 5px 10px;
-  border-radius: 50%;
-  z-index: 1;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.7);
-  }
-`;
-
-export const CarouselButtonRight = styled.button`
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 5px 10px;
-  border-radius: 50%;
   z-index: 1;
 
   &:hover {

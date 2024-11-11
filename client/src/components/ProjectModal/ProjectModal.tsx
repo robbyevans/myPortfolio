@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as S from "./styles";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { ImageData } from "../ProjectModal/types";
 
 interface ProjectModalProps {
@@ -16,14 +17,13 @@ interface ProjectModalProps {
 const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Auto-scroll for carousel
   useEffect(() => {
     if (project.images.length > 1) {
       const interval = setInterval(() => {
         setCurrentImageIndex((prevIndex) =>
           prevIndex === project.images.length - 1 ? 0 : prevIndex + 1
         );
-      }, 3000); // Change image every 3 seconds
+      }, 3000);
       return () => clearInterval(interval);
     }
   }, [project.images.length]);
@@ -50,26 +50,28 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
         <S.ImagesWrapper>
           {project.images.length > 1 ? (
             <S.CarouselContainer>
-              <S.CarouselButtonLeft
+              <S.CarouselButton
+                $orientation="left"
                 onClick={(e) => {
                   e.stopPropagation();
                   handlePrevious();
                 }}
               >
-                &#9664;
-              </S.CarouselButtonLeft>
+                <FaChevronLeft />
+              </S.CarouselButton>
               <S.CarouselImage
                 src={project.images[currentImageIndex]?.url}
                 alt={project.name}
               />
-              <S.CarouselButtonRight
+              <S.CarouselButton
+                $orientation="right"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleNext();
                 }}
               >
-                &#9654;
-              </S.CarouselButtonRight>
+                <FaChevronRight />
+              </S.CarouselButton>
             </S.CarouselContainer>
           ) : (
             <S.ModalImage src={project.images[0]?.url} alt={project.name} />
