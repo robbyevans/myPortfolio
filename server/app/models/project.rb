@@ -7,8 +7,8 @@ class Project < ApplicationRecord
 
   def images_type
     images.each do |image|
-      if !image.content_type.in?(%w[image/jpeg image/png image/gif])
-        errors.add(:images, 'must be JPEG, PNG, or GIF')
+      if !image.content_type.in?(%w[image/jpeg image/png image/svg image/gif])
+        errors.add(:images, 'must be JPEG, PNG,SVG or GIF')
       end
     end
   end

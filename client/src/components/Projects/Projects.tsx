@@ -1,42 +1,17 @@
-// Projects.tsx
+// src/components/Projects/Projects.tsx
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as S from "./styles";
 import ProjectModal from "../ProjectModal/ProjectModal";
-import { ImageData } from "../ProjectModal/types";
+import { Project } from "../../store/projectSlice"; // Import Project type from projectSlice
 
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  images: ImageData[];
-  live_link: string;
+interface ProjectsProps {
+  projectsList: Project[];
+  loading: boolean;
 }
 
-const Projects: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const Projects: React.FC<ProjectsProps> = ({ projectsList, loading }) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
-  useEffect(() => {
-    fetch("http://localhost:3000/projects")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch projects.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setProjects(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching projects:", error);
-        setError(error.message);
-        setLoading(false);
-      });
-  }, []);
 
   const handleCardClick = (project: Project) => {
     setSelectedProject(project);
@@ -54,18 +29,25 @@ const Projects: React.FC = () => {
       document.body.style.overflow = "auto";
     }
 
-    // Clean up the effect when the component is unmounted or modal is closed
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [selectedProject]);
 
   if (loading) {
-    return <S.Message>Loading projects...</S.Message>;
-  }
-
-  if (error) {
-    return <S.Message>Error: {error}</S.Message>;
+    return (
+      <S.ProjectGrid>
+        {Array(6)
+          .fill(0)
+          .map((_, index) => (
+            <S.SkeletonCard key={index}>
+              <S.SkeletonImage />
+              <S.SkeletonText />
+              <S.SkeletonText />
+            </S.SkeletonCard>
+          ))}
+      </S.ProjectGrid>
+    );
   }
 
   return (
@@ -73,18 +55,22 @@ const Projects: React.FC = () => {
       <S.ProjectsWrapper>
         <S.Title>Projects</S.Title>
         <S.ProjectGrid>
-          {projects.map((project) => (
-            <S.ProjectCard
-              key={project.id}
-              onClick={() => handleCardClick(project)}
-            >
-              <S.ProjectImage src={project.images[0]?.url} alt={project.name} />
-              <S.ProjectInfo>
-                <h3>{project.name}</h3>
-                <S.Description>{project.description}</S.Description>
-              </S.ProjectInfo>
-            </S.ProjectCard>
-          ))}
+          {projectsList &&
+            projectsList.map((project) => (
+              <S.ProjectCard
+                key={project?.id}
+                onClick={() => handleCardClick(project)}
+              >
+                <S.ProjectImage
+                  src={project?.images[0]?.url}
+                  alt={project.name}
+                />
+                <S.ProjectInfo>
+                  <h3>{project.name}</h3>
+                  <S.Description>{project.description}</S.Description>
+                </S.ProjectInfo>
+              </S.ProjectCard>
+            ))}
         </S.ProjectGrid>
         {selectedProject && (
           <ProjectModal project={selectedProject} onClose={closeModal} />

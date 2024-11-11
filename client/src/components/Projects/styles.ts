@@ -76,3 +76,28 @@ export const Message = styled.p`
   font-size: 1.2rem;
   color: ${(props) => props.theme.colors.text};
 `;
+
+export const SkeletonCard = styled.div`
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: ${(props) => props.theme.colors.cardBackground};
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
+export const SkeletonImage = styled.div`
+  height: 180px;
+  background-color: ${(props) => props.theme.colors.cardHover};
+  border-radius: 4px;
+`;
+
+export const SkeletonText = styled.div`
+  height: 20px;
+  background-color: ${(props) => props.theme.colors.cardHover};
+  border-radius: 4px;
+  margin-top: 10px;
+
+  &:last-child {
+    width: 70%;
+  }
+`;

@@ -1,16 +1,12 @@
+// src/components/ProjectModal/ProjectModal.tsx
+
 import React, { useEffect, useState } from "react";
 import * as S from "./styles";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
-import { ImageData } from "../ProjectModal/types";
+import { FaChevronLeft, FaChevronRight, FaTimes } from "react-icons/fa";
+import { Project } from "../../store/projectSlice"; // Import Project type from projectSlice
 
 interface ProjectModalProps {
-  project: {
-    id: number;
-    name: string;
-    description: string;
-    live_link: string;
-    images: ImageData[];
-  };
+  project: Project;
   onClose: () => void;
 }
 
@@ -46,7 +42,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
 
   return (
     <S.ModalOverlay onClick={onClose}>
-      <S.ModalContent onClick={handleClick}>
+      <S.ModalContent onClick={(e) => e.stopPropagation()}>
+        <FaTimes onClick={onClose} />
+
         <S.ImagesWrapper>
           {project.images.length > 1 ? (
             <S.CarouselContainer>
@@ -77,7 +75,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
             <S.ModalImage src={project.images[0]?.url} alt={project.name} />
           )}
         </S.ImagesWrapper>
-        <S.ModalInfo>
+        <S.ModalInfo onClick={handleClick}>
           <h3>{project.name}</h3>
           <p>{project.description}</p>
           <S.LiveLink
