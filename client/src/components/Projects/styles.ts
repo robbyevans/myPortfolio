@@ -37,7 +37,6 @@ export const ProjectCard = styled.div`
   background-color: ${(props) => props.theme.colors.cardBackground};
   transition: transform 0.3s, box-shadow 0.3s;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  height: 300px;
 
   &:hover {
     transform: translateY(-10px) scale(1.02);
