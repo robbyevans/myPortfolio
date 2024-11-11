@@ -26,9 +26,11 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, theme }) => {
           I'm Evans, a{" "}
           <RoughNotation
             type="highlight"
+            padding={[2, 2, 2, 2]}
             color={theme === "light" ? "#33e82d" : "#8a1515"}
             show={true}
             animationDuration={800}
+            multiline={true}
           >
             Frontend Software Engineer
           </RoughNotation>{" "}
@@ -38,6 +40,7 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, theme }) => {
             color={theme === "light" ? "#8a1515" : "#33e82d"}
             show={true}
             animationDuration={800}
+            multiline={true}
           >
             <a
               href="https://www.linkedin.com/in/evans-rutto-5a40b722a/"
@@ -53,6 +56,7 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, theme }) => {
             color={theme === "light" ? "#8a1515" : "#33e82d"}
             show={true}
             animationDuration={800}
+            multiline={true}
           >
             <a
               href="https://github.com/robbyevans"
