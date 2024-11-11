@@ -1,3 +1,4 @@
+// Footer.tsx
 import React from "react";
 import * as S from "./styles";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +8,14 @@ const Footer: React.FC = () => {
   const navigate = useNavigate();
   return (
     <S.Footer>
-      <p>&copy; {new Date().getFullYear()} Made by Evans</p>
+      <S.FooterWrapper data-testid="footer-wrapper">
+        <S.FooterHeader>
+          &copy; {new Date().getFullYear()} Made by Evans 🚀
+        </S.FooterHeader>
+        <S.AdminButton onClick={() => navigate("/admin")}>
+          Admin portal
+        </S.AdminButton>
+      </S.FooterWrapper>
       <S.SocialLinks>
         <a
           href="https://github.com/robbyevans"
@@ -17,16 +25,13 @@ const Footer: React.FC = () => {
           <FaGithub size={24} />
         </a>
         <a
-          href="https://linkedin.com/in/robbyevans"
+          href="https://www.linkedin.com/in/evans-rutto-5a40b722a/"
           target="_blank"
           rel="noopener noreferrer"
         >
           <FaLinkedin size={24} />
         </a>
       </S.SocialLinks>
-      <S.AdminButton onClick={() => navigate("/admin")}>
-        Admin portal
-      </S.AdminButton>
     </S.Footer>
   );
 };

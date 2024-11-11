@@ -1,9 +1,19 @@
-// src/components/Footer/styles.ts
-
 import styled from "styled-components";
 
+const breakpoints = {
+  mobile: "480px",
+  tablet: "768px",
+  desktop: "1024px",
+};
+
+export const FooterHeader = styled.p`
+  margin-left: 150px;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    margin: 0;
+  }
+`;
 export const Footer = styled.footer`
-  position: relative;
   padding: 20px;
   text-align: center;
   background-color: ${(props) => props.theme.colors.cardBackground};
@@ -28,10 +38,56 @@ export const SocialLinks = styled.div`
     }
   }
 `;
-export const AdminButton = styled.p`
-  position: absolute;
-  top: 20px;
-  right: 30px;
+
+export const AdminButton = styled.button`
   text-decoration: underline;
   color: ${(props) => props.theme.colors.text};
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+
+  &:hover {
+    color: ${(props) => props.theme.colors.cardHover};
+  }
+
+  &:focus {
+    outline: 2px solid ${(props) => props.theme.colors.primary};
+    outline-offset: 2px;
+  }
+`;
+
+export const FooterWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+  justify-content: center;
+
+  margin: 0 auto;
+
+  p {
+    flex: 1;
+    text-align: center;
+  }
+
+  ${AdminButton} {
+    margin-left: auto;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    flex-direction: column;
+    justify-content: center;
+
+    p {
+      flex: none;
+      text-align: center;
+    }
+
+    ${AdminButton} {
+      margin-left: 0;
+      margin-top: 8px;
+    }
+  }
 `;
