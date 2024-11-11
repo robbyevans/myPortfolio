@@ -1,8 +1,6 @@
 import React from "react";
-
 import * as S from "./styles";
 import { FaSun, FaMoon } from "react-icons/fa";
-import { darkTheme } from "../../theme/darkTheme";
 import { RoughNotation } from "react-rough-notation";
 
 interface HeaderProps {
@@ -15,9 +13,9 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, theme }) => {
     <S.Header data-testid="header-component">
       <S.ThemeToggle onClick={toggleTheme}>
         {theme === "light" ? (
-          <FaMoon color={darkTheme.colors.background} />
+          <FaMoon color="#333" />
         ) : (
-          <FaSun />
+          <FaSun color="#f1c40f" />
         )}
       </S.ThemeToggle>
 
