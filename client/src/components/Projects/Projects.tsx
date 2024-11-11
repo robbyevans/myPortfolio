@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import * as S from "./styles";
 import ProjectModal from "../ProjectModal/ProjectModal";
-import { Project } from "../../store/projectSlice"; // Import Project type from projectSlice
+import { Project } from "../../store/projectSlice";
 
 interface ProjectsProps {
   projectsList: Project[];

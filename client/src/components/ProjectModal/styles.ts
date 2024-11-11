@@ -25,6 +25,7 @@ export const ModalContent = styled.div`
   cursor: pointer;
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  position: relative;
 `;
 
 export const CarouselContainer = styled.div`
@@ -78,6 +79,7 @@ export const ModalImage = styled.img`
 export const ModalInfo = styled.div`
   padding: 20px;
   text-align: left;
+  overflow: hidden;
 
   h3 {
     font-size: 1.8rem;
@@ -110,4 +112,12 @@ export const LiveLink = styled.a`
   &:hover {
     background-color: ${(props) => props.theme.colors.cardHover};
   }
+`;
+
+export const closeButton = styled.button`
+  position: absolute;
+  top: 6px;
+  right: 1px;
+  background: none;
+  border: none;
 `;

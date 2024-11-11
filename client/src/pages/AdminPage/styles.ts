@@ -96,7 +96,7 @@ export const BackButton = styled.button`
   padding: 10px 15px;
   background-color: ${(props) => props.theme.colors.cardBackground};
   color: ${(props) => props.theme.colors.text};
-  border: none;
+  border: 1px solid ${(props) => props.theme.colors.Primary};
   cursor: pointer;
   border-radius: 5px;
 `;
@@ -191,4 +191,8 @@ export const RemoveImageButton = styled.button`
   &:hover {
     background-color: #b71c1c;
   }
+`;
+
+export const ButtonsWrapper = styled.div`
+  min-width: 135px;
 `;

@@ -1,9 +1,7 @@
-// src/main.tsx
 import { useState, useEffect } from "react";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { lightTheme } from "./theme/lightTheme";
-import { darkTheme } from "./theme/darkTheme";
+import { darkTheme, lightTheme } from "./theme/theme";
 import App from "./App";
 import { Provider } from "react-redux";
 import store from "./store";

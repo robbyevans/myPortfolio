@@ -1,12 +1,9 @@
-// src/pages/AdminPage/AdminPage.tsx
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./styles";
 import useHandleProjects from "../../hooks/useHandleProjects";
 import { Project, ImageData } from "../../store/projectSlice";
 
-// Update the Partial<Project> type to handle both File and ImageData types for images
 interface ProjectWithMixedImages extends Omit<Project, "images"> {
   images: (ImageData | File)[];
 }
@@ -53,7 +50,7 @@ const AdminPage: React.FC = () => {
       console.log("Token received:", data.token);
       if (data.token) {
         setToken(data.token);
-        localStorage.setItem("authToken", data.token); // Save token to localStorage
+        localStorage.setItem("authToken", data.token);
       } else {
         alert("Invalid email or password");
       }
@@ -62,7 +59,6 @@ const AdminPage: React.FC = () => {
       alert("An error occurred during login.");
     }
   };
-  
 
   useEffect(() => {
     if (token) {
@@ -281,7 +277,7 @@ const AdminPage: React.FC = () => {
         {projectsList.map((project) => (
           <S.ProjectItem key={project.id}>
             <span>{project.name}</span>
-            <div>
+            <S.ButtonsWrapper>
               <S.EditButton onClick={() => handleEditProject(project)}>
                 Edit
               </S.EditButton>
@@ -290,7 +286,7 @@ const AdminPage: React.FC = () => {
               >
                 Delete
               </S.DeleteButton>
-            </div>
+            </S.ButtonsWrapper>
           </S.ProjectItem>
         ))}
       </S.ProjectList>

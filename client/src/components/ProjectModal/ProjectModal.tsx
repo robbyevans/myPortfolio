@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import * as S from "./styles";
 import { FaChevronLeft, FaChevronRight, FaTimes } from "react-icons/fa";
-import { Project } from "../../store/projectSlice"; // Import Project type from projectSlice
+import { Project } from "../../store/projectSlice";
 
 interface ProjectModalProps {
   project: Project;
@@ -43,7 +43,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
   return (
     <S.ModalOverlay onClick={onClose}>
       <S.ModalContent onClick={(e) => e.stopPropagation()}>
-        <FaTimes onClick={onClose} />
+        <S.closeButton onClick={onClose}>
+          <FaTimes />
+        </S.closeButton>
 
         <S.ImagesWrapper>
           {project.images.length > 1 ? (
