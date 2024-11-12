@@ -1,5 +1,3 @@
-// src/hooks/useHandleProjects.ts
-
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import {
@@ -13,6 +11,7 @@ import { useCallback } from "react";
 
 const useHandleProjects = () => {
   const dispatch = useDispatch<AppDispatch>();
+
   const projectsList = useSelector(
     (state: RootState) => state.projects.projectsList
   );

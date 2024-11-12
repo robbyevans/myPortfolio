@@ -40,15 +40,14 @@ const initialState: ProjectsState = {
 
 // Helper function to retrieve token from localStorage
 const getAuthToken = () => localStorage.getItem("authToken");
+const apiUrl = import.meta.env.VITE_API_URL;
 
 // Async Thunks
 export const fetchProjects = createAsyncThunk<Project[]>(
   "projects/fetchProjects",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get<Project[]>(
-        "https://portfolio-f0i5.onrender.com/projects"
-      );
+      const response = await axios.get<Project[]>(`${apiUrl}/projects`);
       return response.data;
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
@@ -67,7 +66,7 @@ export const addProject = createAsyncThunk<Project, FormData>(
     try {
       const token = getAuthToken(); // Get token from localStorage
       const response = await axios.post<Project>(
-        "https://portfolio-f0i5.onrender.com/projects",
+        `${apiUrl}/projects`,
         formData,
         {
           headers: {
@@ -95,7 +94,8 @@ export const updateProject = createAsyncThunk<
   try {
     const token = getAuthToken(); // Get token from localStorage
     const response = await axios.patch<Project>(
-      `https://portfolio-f0i5.onrender.com/projects/${id}`,
+      `${apiUrl}/projects/${id}`,
+
       formData,
       {
         headers: {
@@ -120,7 +120,7 @@ export const deleteProject = createAsyncThunk<number, number>(
   async (id, { rejectWithValue }) => {
     try {
       const token = getAuthToken(); // Get token from localStorage
-      await axios.delete(`https://portfolio-f0i5.onrender.com/projects/${id}`, {
+      await axios.delete(`${apiUrl}/projects/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -26,8 +26,6 @@ const AdminPage: React.FC = () => {
   const navigate = useNavigate();
   const {
     projectsList,
-    loading,
-    error,
     toastMessage,
     handleFetchProjects,
     handleAddProject,
@@ -35,22 +33,25 @@ const AdminPage: React.FC = () => {
     handleDeleteProject,
     handleResetToasteMessage,
   } = useHandleProjects();
-
-  console.log("error", error);
-  console.log("loading", loading);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(
-        "https://portfolio-f0i5.onrender.com/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username: email, password }),
-        }
-      );
+      const response = await fetch(`${apiUrl}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: email, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.text();
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${errorData}`
+        );
+      }
+
       const data = await response.json();
       console.log("Token received:", data.token);
       if (data.token) {
@@ -284,21 +285,22 @@ const AdminPage: React.FC = () => {
         )}
       </S.Form>
       <S.ProjectList>
-        {projectsList.map((project) => (
-          <S.ProjectItem key={project.id}>
-            <span>{project.name}</span>
-            <S.ButtonsWrapper>
-              <S.EditButton onClick={() => handleEditProject(project)}>
-                Edit
-              </S.EditButton>
-              <S.DeleteButton
-                onClick={() => handleDeleteProjectClick(project.id)}
-              >
-                Delete
-              </S.DeleteButton>
-            </S.ButtonsWrapper>
-          </S.ProjectItem>
-        ))}
+        {Array.isArray(projectsList) &&
+          projectsList.map((project) => (
+            <S.ProjectItem key={project.id}>
+              <span>{project.name}</span>
+              <S.ButtonsWrapper>
+                <S.EditButton onClick={() => handleEditProject(project)}>
+                  Edit
+                </S.EditButton>
+                <S.DeleteButton
+                  onClick={() => handleDeleteProjectClick(project.id)}
+                >
+                  Delete
+                </S.DeleteButton>
+              </S.ButtonsWrapper>
+            </S.ProjectItem>
+          ))}
       </S.ProjectList>
     </S.AdminContainer>
   );

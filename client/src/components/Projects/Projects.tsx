@@ -55,7 +55,7 @@ const Projects: React.FC<ProjectsProps> = ({ projectsList, loading }) => {
       <S.ProjectsWrapper>
         <S.Title>Projects</S.Title>
         <S.ProjectGrid>
-          {projectsList &&
+          {Array.isArray(projectsList) &&
             projectsList.map((project) => (
               <S.ProjectCard
                 key={project?.id}

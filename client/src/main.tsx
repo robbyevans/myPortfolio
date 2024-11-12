@@ -9,6 +9,7 @@ import { ThemeProvider } from "styled-components";
 
 const Root = () => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  console.log(`Environment: ${import.meta.env.MODE}`);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("portfolioTheme") as
