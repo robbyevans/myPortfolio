@@ -62,7 +62,11 @@ const Projects: React.FC<ProjectsProps> = ({ projectsList, loading }) => {
                 onClick={() => handleCardClick(project)}
               >
                 <S.ProjectImage
-                  src={project?.images[0]?.url}
+                  src={
+                    project.images && project.images[0]
+                      ? project.images[0].url
+                      : "placeholder_image_url"
+                  }
                   alt={project.name}
                 />
                 <S.ProjectInfo>
