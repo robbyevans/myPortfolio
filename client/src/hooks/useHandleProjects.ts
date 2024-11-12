@@ -7,6 +7,7 @@ import {
   addProject,
   updateProject,
   deleteProject,
+  resetToastMessage,
 } from "../store/projectSlice";
 import { useCallback } from "react";
 
@@ -17,6 +18,9 @@ const useHandleProjects = () => {
   );
   const loading = useSelector((state: RootState) => state.projects.loading);
   const error = useSelector((state: RootState) => state.projects.error);
+  const toastMessage = useSelector(
+    (state: RootState) => state.projects.toastMessage
+  );
 
   const handleFetchProjects = useCallback(() => {
     dispatch(fetchProjects());
@@ -24,33 +28,38 @@ const useHandleProjects = () => {
 
   const handleAddProject = useCallback(
     (formData: FormData) => {
-      dispatch(addProject(formData)); // No need to pass token
+      dispatch(addProject(formData));
     },
     [dispatch]
   );
 
   const handleUpdateProject = useCallback(
     (payload: { id: number; formData: FormData }) => {
-      dispatch(updateProject(payload)); // No need to pass token
+      dispatch(updateProject(payload));
     },
     [dispatch]
   );
 
   const handleDeleteProject = useCallback(
     (id: number) => {
-      dispatch(deleteProject(id)); // No need to pass token
+      dispatch(deleteProject(id));
     },
     [dispatch]
   );
+  const handleResetToasteMessage = () => {
+    dispatch(resetToastMessage());
+  };
 
   return {
     projectsList,
     loading,
     error,
+    toastMessage,
     handleFetchProjects,
     handleAddProject,
     handleUpdateProject,
     handleDeleteProject,
+    handleResetToasteMessage,
   };
 };
 

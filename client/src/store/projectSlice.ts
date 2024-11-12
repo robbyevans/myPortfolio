@@ -14,16 +14,28 @@ export interface Project {
   live_link: string;
 }
 
+export interface IToastMessage {
+  showToastMessage: boolean;
+  variant: "success" | "error" | "info";
+  message: string;
+}
+
 interface ProjectsState {
   projectsList: Project[];
   loading: boolean;
   error: string | null;
+  toastMessage: IToastMessage;
 }
 
 const initialState: ProjectsState = {
   projectsList: [],
   loading: false,
   error: null,
+  toastMessage: {
+    showToastMessage: false,
+    variant: "info",
+    message: "",
+  },
 };
 
 // Helper function to retrieve token from localStorage
@@ -127,9 +139,6 @@ export const deleteProject = createAsyncThunk<number, number>(
 
 // Slice
 const projectsSlice = createSlice({
-  name: "projects",
-  initialState,
-  reducers: {},
   extraReducers: (builder) => {
     // Fetch Projects
     builder.addCase(fetchProjects.pending, (state) => {
@@ -141,11 +150,21 @@ const projectsSlice = createSlice({
       (state, action: PayloadAction<Project[]>) => {
         state.loading = false;
         state.projectsList = action.payload;
+        state.toastMessage = {
+          showToastMessage: true,
+          variant: "info",
+          message: "Projects fetched successfully",
+        };
       }
     );
     builder.addCase(fetchProjects.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
+      state.toastMessage = {
+        showToastMessage: true,
+        variant: "error",
+        message: "Failed to fetch projects",
+      };
     });
 
     // Add Project
@@ -158,11 +177,21 @@ const projectsSlice = createSlice({
       (state, action: PayloadAction<Project>) => {
         state.loading = false;
         state.projectsList.push(action.payload);
+        state.toastMessage = {
+          showToastMessage: true,
+          variant: "success",
+          message: "Project added successfully",
+        };
       }
     );
     builder.addCase(addProject.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
+      state.toastMessage = {
+        showToastMessage: true,
+        variant: "error",
+        message: "Failed to add project",
+      };
     });
 
     // Update Project
@@ -180,11 +209,21 @@ const projectsSlice = createSlice({
         if (index !== -1) {
           state.projectsList[index] = action.payload;
         }
+        state.toastMessage = {
+          showToastMessage: true,
+          variant: "success",
+          message: "Project updated successfully",
+        };
       }
     );
     builder.addCase(updateProject.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
+      state.toastMessage = {
+        showToastMessage: true,
+        variant: "error",
+        message: "Failed to update project",
+      };
     });
 
     // Delete Project
@@ -199,13 +238,39 @@ const projectsSlice = createSlice({
         state.projectsList = state.projectsList.filter(
           (project) => project.id !== action.payload
         );
+        state.toastMessage = {
+          showToastMessage: true,
+          variant: "success",
+          message: "Project deleted successfully",
+        };
       }
     );
     builder.addCase(deleteProject.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
+      state.toastMessage = {
+        showToastMessage: true,
+        variant: "error",
+        message: "Failed to delete project",
+      };
     });
+  },
+
+  name: "projects",
+  initialState,
+  reducers: {
+    setShowToastMessage: (state, action: PayloadAction<IToastMessage>) => {
+      state.toastMessage = action.payload;
+    },
+    resetToastMessage: (state) => {
+      state.toastMessage = {
+        showToastMessage: false,
+        variant: "info",
+        message: "",
+      };
+    },
   },
 });
 
+export const { setShowToastMessage, resetToastMessage } = projectsSlice.actions;
 export default projectsSlice.reducer;

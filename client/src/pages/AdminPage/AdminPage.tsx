@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as S from "./styles";
 import useHandleProjects from "../../hooks/useHandleProjects";
 import { Project, ImageData } from "../../store/projectSlice";
-
+import ToastMessage from "../../components/ToastMessage/ToastMessage";
 interface ProjectWithMixedImages extends Omit<Project, "images"> {
   images: (ImageData | File)[];
 }
@@ -28,10 +28,12 @@ const AdminPage: React.FC = () => {
     projectsList,
     loading,
     error,
+    toastMessage,
     handleFetchProjects,
     handleAddProject,
     handleUpdateProject,
     handleDeleteProject,
+    handleResetToasteMessage,
   } = useHandleProjects();
 
   console.log("error", error);
@@ -39,13 +41,16 @@ const AdminPage: React.FC = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("https://portfolio-f0i5.onrender.com/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username: email, password }),
-      });
+      const response = await fetch(
+        "https://portfolio-f0i5.onrender.com/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username: email, password }),
+        }
+      );
       const data = await response.json();
       console.log("Token received:", data.token);
       if (data.token) {
@@ -200,6 +205,11 @@ const AdminPage: React.FC = () => {
 
   return (
     <S.AdminContainer>
+      <ToastMessage
+        toastMessage={toastMessage}
+        isAutoclose={true}
+        handleClose={handleResetToasteMessage}
+      />
       <S.BackButton onClick={() => navigate("/")}>Back to Home</S.BackButton>
       <h2>Admin Portal</h2>
       <S.Form>
