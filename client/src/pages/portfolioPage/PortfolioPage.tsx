@@ -18,8 +18,6 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({
   theme,
 }) => {
   const { projectsList, loading, handleFetchProjects } = useHandleProjects();
-  console.log("projectsList", projectsList);
-  console.log("isLoading", loading);
 
   useEffect(() => {
     handleFetchProjects();
