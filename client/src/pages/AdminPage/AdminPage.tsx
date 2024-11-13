@@ -9,12 +9,6 @@ interface ProjectWithMixedImages extends Omit<Project, "images"> {
 }
 
 interface AdminPageProps {
-  email: string;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
-  password: string;
-  setPassword: React.Dispatch<React.SetStateAction<string>>;
-  handleLogin: () => void;
-  token: string | null;
   projectsList: Project[];
   toastMessage: IToastMessage;
   handleResetToastMessage: () => void;
@@ -34,12 +28,6 @@ interface AdminPageProps {
 }
 
 const AdminPage: React.FC<AdminPageProps> = ({
-  email,
-  setEmail,
-  password,
-  setPassword,
-  handleLogin,
-  token,
   projectsList,
   toastMessage,
   handleResetToastMessage,
@@ -55,27 +43,27 @@ const AdminPage: React.FC<AdminPageProps> = ({
   handleRemoveImage,
   handleBackToHome,
 }) => {
-  if (!token) {
-    return (
-      <S.LoginContainer>
-        <S.BackButton onClick={handleBackToHome}>Back to Home</S.BackButton>
-        <h2>Admin Login</h2>
-        <S.Input
-          type="text"
-          placeholder="Enter email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <S.Input
-          type="password"
-          placeholder="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <S.Button onClick={handleLogin}>Login</S.Button>
-      </S.LoginContainer>
-    );
-  }
+  // if (!token) {
+  //   return (
+  //     <S.LoginContainer>
+  //       <S.BackButton onClick={handleBackToHome}>Back to Home</S.BackButton>
+  //       <h2>Admin Login</h2>
+  //       <S.Input
+  //         type="text"
+  //         placeholder="Enter email"
+  //         value={email}
+  //         onChange={(e) => setEmail(e.target.value)}
+  //       />
+  //       <S.Input
+  //         type="password"
+  //         placeholder="Enter password"
+  //         value={password}
+  //         onChange={(e) => setPassword(e.target.value)}
+  //       />
+  //       <S.Button onClick={handleLogin}>Login</S.Button>
+  //     </S.LoginContainer>
+  //   );
+  // }
 
   return (
     <S.AdminContainer>

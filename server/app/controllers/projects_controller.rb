@@ -1,12 +1,12 @@
 class ProjectsController < ApplicationController
-  before_action :authenticate, except: [:index, :show]
+  before_action :authorize_request, except: [:index, :show]
   before_action :set_project, only: [:show, :update, :destroy]
 
-  # GET /projects
-  def index
-    @projects = Project.all
-    render json: @projects.map { |project| project_with_images(project) }
-  end
+ # GET /projects
+ def index
+  @projects = Project.all
+  render json: @projects.map { |project| project_with_images(project) }
+end
 
   # GET /projects/:id
   def show
@@ -17,7 +17,7 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     if @project.save
-      render json: @project, status: :created
+      render json: project_with_images(@project), status: :created
     else
       render json: @project.errors, status: :unprocessable_entity
     end
@@ -50,11 +50,8 @@ end
 
   private
 
-  def authenticate
-    token = request.headers['Authorization'].to_s.split(' ').last
-    unless token == ENV['ADMIN_TOKEN']
-      render json: { error: 'Unauthorized' }, status: :unauthorized
-    end
+  def authorize_request
+    super  # Calls the method in ApplicationController
   end
 
   def set_project

@@ -1,4 +1,6 @@
+import axiosInstance from "../api/axiosInstance";
 import axios from "axios";
+
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 export interface ImageData {
@@ -40,14 +42,13 @@ const initialState: ProjectsState = {
 
 // Helper function to retrieve token from localStorage
 const getAuthToken = () => localStorage.getItem("authToken");
-const apiUrl = import.meta.env.VITE_API_URL;
 
 // Async Thunks
 export const fetchProjects = createAsyncThunk<Project[]>(
   "projects/fetchProjects",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get<Project[]>(`${apiUrl}/projects`);
+      const response = await axiosInstance.get<Project[]>(`/projects`);
       return response.data;
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
@@ -65,8 +66,8 @@ export const addProject = createAsyncThunk<Project, FormData>(
   async (formData, { rejectWithValue }) => {
     try {
       const token = getAuthToken(); // Get token from localStorage
-      const response = await axios.post<Project>(
-        `${apiUrl}/projects`,
+      const response = await axiosInstance.post<Project>(
+        `/projects`,
         formData,
         {
           headers: {
@@ -93,8 +94,8 @@ export const updateProject = createAsyncThunk<
 >("projects/updateProject", async ({ id, formData }, { rejectWithValue }) => {
   try {
     const token = getAuthToken(); // Get token from localStorage
-    const response = await axios.patch<Project>(
-      `${apiUrl}/projects/${id}`,
+    const response = await axiosInstance.patch<Project>(
+      `/projects/${id}`,
 
       formData,
       {
@@ -120,7 +121,7 @@ export const deleteProject = createAsyncThunk<number, number>(
   async (id, { rejectWithValue }) => {
     try {
       const token = getAuthToken(); // Get token from localStorage
-      await axios.delete(`${apiUrl}/projects/${id}`, {
+      await axiosInstance.delete(`/projects/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useHandleProjects from "../hooks/useHandleProjects";
 import { Project, ImageData } from "../store/projectSlice";
 import AdminPage from "../pages/AdminPage/AdminPage";
+import { useUser } from "../hooks/useUser";
 
 interface ProjectWithMixedImages extends Omit<Project, "images"> {
   images: (ImageData | File)[];
@@ -12,9 +13,8 @@ interface ProjectWithMixedImages extends Omit<Project, "images"> {
 
 const AdminPageContainer: React.FC = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [token, setToken] = useState<string | null>(null);
+  const { token } = useUser();
+
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
   const [imagesToBeDeleted, setImagesToBeDeleted] = useState<number[]>([]);
 
@@ -36,42 +36,11 @@ const AdminPageContainer: React.FC = () => {
     handleResetToastMessage,
   } = useHandleProjects();
 
-  const apiUrl = import.meta.env.VITE_API_URL;
-
-  // Login Handler
-  const handleLogin = async () => {
-    try {
-      const response = await fetch(`${apiUrl}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username: email, password }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.text();
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${errorData}`
-        );
-      }
-
-      const data = await response.json();
-      if (data.token) {
-        setToken(data.token);
-        localStorage.setItem("authToken", data.token);
-      } else {
-        alert("Invalid email or password");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      alert("An error occurred during login.");
-    }
-  };
-
   // Fetch Projects on Token Change
   useEffect(() => {
-    if (token) {
+    if (!token) {
+      navigate("/login");
+    } else {
       handleFetchProjects();
     }
   }, [token, handleFetchProjects]);
@@ -223,12 +192,6 @@ const AdminPageContainer: React.FC = () => {
 
   return (
     <AdminPage
-      email={email}
-      setEmail={setEmail}
-      password={password}
-      setPassword={setPassword}
-      handleLogin={handleLogin}
-      token={token}
       projectsList={projectsList}
       toastMessage={toastMessage}
       handleResetToastMessage={handleResetToastMessage}
