@@ -25,6 +25,7 @@ interface AdminPageProps {
   handleDeleteProjectClick: (id: number) => void;
   handleRemoveImage: (index: number) => void;
   handleBackToHome: () => void;
+  handleLogout: () => void;
 }
 
 const AdminPage: React.FC<AdminPageProps> = ({
@@ -42,31 +43,11 @@ const AdminPage: React.FC<AdminPageProps> = ({
   handleDeleteProjectClick,
   handleRemoveImage,
   handleBackToHome,
+  handleLogout,
 }) => {
-  // if (!token) {
-  //   return (
-  //     <S.LoginContainer>
-  //       <S.BackButton onClick={handleBackToHome}>Back to Home</S.BackButton>
-  //       <h2>Admin Login</h2>
-  //       <S.Input
-  //         type="text"
-  //         placeholder="Enter email"
-  //         value={email}
-  //         onChange={(e) => setEmail(e.target.value)}
-  //       />
-  //       <S.Input
-  //         type="password"
-  //         placeholder="Enter password"
-  //         value={password}
-  //         onChange={(e) => setPassword(e.target.value)}
-  //       />
-  //       <S.Button onClick={handleLogin}>Login</S.Button>
-  //     </S.LoginContainer>
-  //   );
-  // }
-
   return (
     <S.AdminContainer>
+      <S.BackButton onClick={handleLogout}>Logout</S.BackButton>
       <ToastMessage
         toastMessage={toastMessage}
         isAutoclose={true}

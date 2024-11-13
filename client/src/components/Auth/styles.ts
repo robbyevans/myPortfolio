@@ -4,10 +4,17 @@ import styled from "styled-components";
 
 export const AuthContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  text-align: center;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: ${({ theme }) => theme.background};
+  margin-top: 20%;
+  max-width: 470px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: ${(props) => props.theme.colors.cardBackground};
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 export const AuthBox = styled.div`
@@ -47,7 +54,7 @@ export const Input = styled.input`
 
 export const Button = styled.button`
   padding: 12px;
-  background: ${({ theme }) => theme.primaryColor};
+  background-color: ${(props) => props.theme.colors.primary};
   color: #fff;
   font-size: 16px;
   border: none;
@@ -56,7 +63,7 @@ export const Button = styled.button`
   margin-bottom: 16px;
 
   &:disabled {
-    background: ${({ theme }) => theme.disabledColor};
+    background: ${(props) => props.theme.disabledColor};
     cursor: not-allowed;
   }
 
@@ -67,12 +74,7 @@ export const Button = styled.button`
 
 export const SwitchView = styled.p`
   color: ${({ theme }) => theme.linkColor};
-  cursor: pointer;
   margin-top: 16px;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 export const ErrorMessage = styled.p`

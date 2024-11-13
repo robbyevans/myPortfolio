@@ -13,7 +13,7 @@ interface ProjectWithMixedImages extends Omit<Project, "images"> {
 
 const AdminPageContainer: React.FC = () => {
   const navigate = useNavigate();
-  const { token } = useUser();
+  const { token, handleLogout } = useUser();
 
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
   const [imagesToBeDeleted, setImagesToBeDeleted] = useState<number[]>([]);
@@ -190,6 +190,11 @@ const AdminPageContainer: React.FC = () => {
     navigate("/");
   };
 
+  const handleClickLogout = () => {
+    handleLogout();
+    handleBackToHome();
+  };
+
   return (
     <AdminPage
       projectsList={projectsList}
@@ -202,6 +207,7 @@ const AdminPageContainer: React.FC = () => {
       handleUpdateProjectClick={handleUpdateProjectClick}
       currentProject={currentProject}
       handleCancelEdit={handleCancelEdit}
+      handleLogout={handleClickLogout}
       handleEditProject={handleEditProject}
       handleDeleteProjectClick={handleDeleteProjectClick}
       handleRemoveImage={handleRemoveImage}

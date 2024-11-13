@@ -1,5 +1,3 @@
-// File: /client/src/containers/AuthContainer.tsx
-
 import React, { useState, useEffect } from "react";
 import { useUser } from "../hooks/useUser";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -9,6 +7,7 @@ const AuthContainer: React.FC = () => {
   const [view, setView] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const { handleLogin, handleSignup, token, loading, error, clearUserError } =
     useUser();
   const navigate = useNavigate();
@@ -29,6 +28,11 @@ const AuthContainer: React.FC = () => {
     if (view === "login") {
       handleLogin(email, password);
     } else {
+      // Validate that password and confirmPassword match
+      if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return;
+      }
       handleSignup(email, password);
     }
   };
@@ -43,10 +47,12 @@ const AuthContainer: React.FC = () => {
       view={view}
       email={email}
       password={password}
+      confirmPassword={confirmPassword} // Add this line
       loading={loading}
       error={error}
       onEmailChange={setEmail}
       onPasswordChange={setPassword}
+      onConfirmPasswordChange={setConfirmPassword} // Add this line
       onSubmit={handleSubmit}
       onSwitchView={switchView}
     />

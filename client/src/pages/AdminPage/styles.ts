@@ -1,20 +1,5 @@
 import styled from "styled-components";
 
-export const LoginContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  justify-content: center;
-  margin-top: 50px;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: ${(props) => props.theme.colors.cardBackground};
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-`;
-
 export const AdminContainer = styled.div`
   padding: 20px;
   max-width: 900px;
