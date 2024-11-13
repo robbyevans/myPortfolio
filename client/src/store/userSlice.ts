@@ -1,8 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+interface IUser {
+  id: number | undefined;
+  email: string;
+}
 interface UserState {
-  user: any;
+  user: IUser | null;
   token: string | null;
   loading: boolean;
   error: string | null;
