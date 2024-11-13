@@ -1,191 +1,64 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import * as S from "./styles";
-import useHandleProjects from "../../hooks/useHandleProjects";
-import { Project, ImageData } from "../../store/projectSlice";
 import ToastMessage from "../../components/ToastMessage/ToastMessage";
+import { Project, ImageData } from "../../store/projectSlice";
+import { IToastMessage } from "../../store/projectSlice";
+
 interface ProjectWithMixedImages extends Omit<Project, "images"> {
   images: (ImageData | File)[];
 }
 
-const AdminPage: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [token, setToken] = useState<string | null>(null);
-  const [currentProject, setCurrentProject] = useState<Project | null>(null);
-
-  // Use the updated ProjectWithMixedImages type for newProject
-  const [newProject, setNewProject] = useState<ProjectWithMixedImages>({
-    id: 0,
-    name: "",
-    description: "",
-    images: [],
-    live_link: "",
-  });
-
-  const navigate = useNavigate();
-  const {
-    projectsList,
-    toastMessage,
-    handleFetchProjects,
-    handleAddProject,
-    handleUpdateProject,
-    handleDeleteProject,
-    handleResetToasteMessage,
-  } = useHandleProjects();
-  const apiUrl = import.meta.env.VITE_API_URL;
-
-  const handleLogin = async () => {
-    try {
-      const response = await fetch(`${apiUrl}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username: email, password }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.text();
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${errorData}`
-        );
-      }
-
-      const data = await response.json();
-      console.log("Token received:", data.token);
-      if (data.token) {
-        setToken(data.token);
-        localStorage.setItem("authToken", data.token);
-      } else {
-        alert("Invalid email or password");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      alert("An error occurred during login.");
-    }
-  };
-
-  useEffect(() => {
-    if (token) {
-      handleFetchProjects();
-    }
-  }, [token, handleFetchProjects]);
-
-  const handleInputChange = (
+interface AdminPageProps {
+  email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  password: string;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  handleLogin: () => void;
+  token: string | null;
+  projectsList: Project[];
+  toastMessage: IToastMessage;
+  handleResetToastMessage: () => void;
+  newProject: ProjectWithMixedImages;
+  handleInputChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setNewProject({ ...newProject, [e.target.name]: e.target.value });
-  };
+  ) => void;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleAddProjectClick: () => void;
+  handleUpdateProjectClick: () => void;
+  currentProject: Project | null;
+  handleCancelEdit: () => void;
+  handleEditProject: (project: Project) => void;
+  handleDeleteProjectClick: (id: number) => void;
+  handleRemoveImage: (index: number) => void;
+  handleBackToHome: () => void;
+}
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const newFiles = Array.from(e.target.files);
-      const uniqueFiles = newFiles.filter(
-        (newFile) =>
-          !newProject.images.some(
-            (existingImage) =>
-              existingImage instanceof File &&
-              existingImage.name === newFile.name
-          )
-      );
-
-      setNewProject({
-        ...newProject,
-        images: [...newProject.images, ...uniqueFiles],
-      });
-    }
-  };
-
-  const handleAddProjectClick = async () => {
-    const formData = new FormData();
-    formData.append("project[name]", newProject.name || "");
-    formData.append("project[description]", newProject.description || "");
-    formData.append("project[live_link]", newProject.live_link || "");
-
-    // Only append File types to the FormData
-    newProject.images.forEach((image) => {
-      if (image instanceof File) {
-        formData.append("project[images][]", image);
-      }
-    });
-
-    try {
-      await handleAddProject(formData);
-      setNewProject({
-        id: 0,
-        name: "",
-        description: "",
-        live_link: "",
-        images: [],
-      });
-    } catch (error) {
-      console.error("Error adding project:", error);
-      alert("An error occurred while adding the project.");
-    }
-  };
-
-  const handleUpdateProjectClick = async () => {
-    if (!currentProject) return;
-
-    const formData = new FormData();
-    formData.append("project[name]", newProject.name || "");
-    formData.append("project[description]", newProject.description || "");
-    formData.append("project[live_link]", newProject.live_link || "");
-
-    // Only append File types to the FormData for upload
-    newProject.images.forEach((image) => {
-      if (image instanceof File) {
-        formData.append("project[images][]", image);
-      }
-    });
-
-    try {
-      await handleUpdateProject({ id: currentProject.id, formData });
-      setCurrentProject(null);
-      setNewProject({
-        id: 0,
-        name: "",
-        description: "",
-        live_link: "",
-        images: [],
-      });
-    } catch (error) {
-      console.error("Error updating project:", error);
-      alert("An error occurred while updating the project.");
-    }
-  };
-
-  const handleDeleteProjectClick = async (id: number) => {
-    try {
-      await handleDeleteProject(id);
-    } catch (error) {
-      console.error("Error deleting project:", error);
-      alert("An error occurred while deleting the project.");
-    }
-  };
-
-  const handleEditProject = (project: Project) => {
-    setCurrentProject(project);
-    setNewProject({
-      id: project.id,
-      name: project.name,
-      description: project.description,
-      live_link: project.live_link,
-      images: project.images, // Ensure existing images are preserved
-    });
-  };
-
-  const handleRemoveImage = (index: number) => {
-    const updatedImages = [...newProject.images];
-    updatedImages.splice(index, 1);
-    setNewProject({ ...newProject, images: updatedImages });
-  };
-
+const AdminPage: React.FC<AdminPageProps> = ({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  handleLogin,
+  token,
+  projectsList,
+  toastMessage,
+  handleResetToastMessage,
+  newProject,
+  handleInputChange,
+  handleFileChange,
+  handleAddProjectClick,
+  handleUpdateProjectClick,
+  currentProject,
+  handleCancelEdit,
+  handleEditProject,
+  handleDeleteProjectClick,
+  handleRemoveImage,
+  handleBackToHome,
+}) => {
   if (!token) {
     return (
       <S.LoginContainer>
-        <S.BackButton onClick={() => navigate("/")}>Back to Home</S.BackButton>
+        <S.BackButton onClick={handleBackToHome}>Back to Home</S.BackButton>
         <h2>Admin Login</h2>
         <S.Input
           type="text"
@@ -209,9 +82,9 @@ const AdminPage: React.FC = () => {
       <ToastMessage
         toastMessage={toastMessage}
         isAutoclose={true}
-        handleClose={handleResetToasteMessage}
+        handleClose={handleResetToastMessage}
       />
-      <S.BackButton onClick={() => navigate("/")}>Back to Home</S.BackButton>
+      <S.BackButton onClick={handleBackToHome}>Back to Home</S.BackButton>
       <h2>Admin Portal</h2>
       <S.Form>
         <S.Input
@@ -265,42 +138,28 @@ const AdminPage: React.FC = () => {
             <S.Button onClick={handleUpdateProjectClick}>
               Update Project
             </S.Button>
-            <S.CancelButton
-              onClick={() => {
-                setCurrentProject(null);
-                setNewProject({
-                  id: 0,
-                  name: "",
-                  description: "",
-                  live_link: "",
-                  images: [],
-                });
-              }}
-            >
-              Cancel
-            </S.CancelButton>
+            <S.CancelButton onClick={handleCancelEdit}>Cancel</S.CancelButton>
           </>
         ) : (
           <S.Button onClick={handleAddProjectClick}>Add Project</S.Button>
         )}
       </S.Form>
       <S.ProjectList>
-        {Array.isArray(projectsList) &&
-          projectsList.map((project) => (
-            <S.ProjectItem key={project.id}>
-              <span>{project.name}</span>
-              <S.ButtonsWrapper>
-                <S.EditButton onClick={() => handleEditProject(project)}>
-                  Edit
-                </S.EditButton>
-                <S.DeleteButton
-                  onClick={() => handleDeleteProjectClick(project.id)}
-                >
-                  Delete
-                </S.DeleteButton>
-              </S.ButtonsWrapper>
-            </S.ProjectItem>
-          ))}
+        {projectsList.map((project) => (
+          <S.ProjectItem key={project.id}>
+            <span>{project.name}</span>
+            <S.ButtonsWrapper>
+              <S.EditButton onClick={() => handleEditProject(project)}>
+                Edit
+              </S.EditButton>
+              <S.DeleteButton
+                onClick={() => handleDeleteProjectClick(project.id)}
+              >
+                Delete
+              </S.DeleteButton>
+            </S.ButtonsWrapper>
+          </S.ProjectItem>
+        ))}
       </S.ProjectList>
     </S.AdminContainer>
   );

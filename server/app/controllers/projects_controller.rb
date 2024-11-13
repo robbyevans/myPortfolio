@@ -25,24 +25,15 @@ class ProjectsController < ApplicationController
 
  # PATCH/PUT /projects/:id
  def update
-  if @project.update(project_params)
-    # Attach new images if any
-    if params[:project][:images]
-      params[:project][:images].each do |image|
-        @project.images.attach(image)
-        unless @project.images.map(&:filename).include?(image.original_filename)
-          @project.images.attach(image)
-        end
-      end
+  # Remove images if specified
+  if params[:project][:remove_image_ids]
+    params[:project][:remove_image_ids].each do |image_id|
+      image = @project.images.find(image_id)
+      image.purge
     end
+  end
 
-    # Remove images if specified
-    if params[:project][:remove_image_ids]
-      params[:project][:remove_image_ids].each do |image_id|
-        image = @project.images.find(image_id)
-        image.purge
-      end
-    end
+  if @project.update(project_params)
 
     render json: project_with_images(@project)
   else

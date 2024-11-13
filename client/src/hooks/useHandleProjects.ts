@@ -27,25 +27,26 @@ const useHandleProjects = () => {
 
   const handleAddProject = useCallback(
     (formData: FormData) => {
-      dispatch(addProject(formData));
+      return dispatch(addProject(formData));
     },
     [dispatch]
   );
 
   const handleUpdateProject = useCallback(
     (payload: { id: number; formData: FormData }) => {
-      dispatch(updateProject(payload));
+      return dispatch(updateProject(payload));
     },
     [dispatch]
   );
 
   const handleDeleteProject = useCallback(
     (id: number) => {
-      dispatch(deleteProject(id));
+      return dispatch(deleteProject(id));
     },
     [dispatch]
   );
-  const handleResetToasteMessage = () => {
+
+  const handleResetToastMessage = () => {
     dispatch(resetToastMessage());
   };
 
@@ -58,7 +59,7 @@ const useHandleProjects = () => {
     handleAddProject,
     handleUpdateProject,
     handleDeleteProject,
-    handleResetToasteMessage,
+    handleResetToastMessage,
   };
 };
 
