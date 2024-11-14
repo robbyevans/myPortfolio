@@ -6,6 +6,7 @@ import {
   updateProject,
   deleteProject,
   resetToastMessage,
+  updateProjectOrderThunk,
 } from "../store/projectSlice";
 import { useCallback } from "react";
 
@@ -50,6 +51,13 @@ const useHandleProjects = () => {
     dispatch(resetToastMessage());
   };
 
+  const updateProjectOrder = useCallback(
+    (projectIds: number[]) => {
+      return dispatch(updateProjectOrderThunk(projectIds));
+    },
+    [dispatch]
+  );
+
   return {
     projectsList,
     loading,
@@ -60,6 +68,7 @@ const useHandleProjects = () => {
     handleUpdateProject,
     handleDeleteProject,
     handleResetToastMessage,
+    updateProjectOrder
   };
 };
 

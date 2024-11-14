@@ -1,11 +1,12 @@
-// File: /client/src/pages/AdminPage/AdminPageContainer.tsx
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useHandleProjects from "../hooks/useHandleProjects";
 import { Project, ImageData } from "../store/projectSlice";
 import AdminPage from "../pages/AdminPage/AdminPage";
 import { useUser } from "../hooks/useUser";
+import { DragEndEvent } from "@dnd-kit/core";
+
+import { arrayMove } from "@dnd-kit/sortable";
 
 interface ProjectWithMixedImages extends Omit<Project, "images"> {
   images: (ImageData | File)[];
@@ -17,7 +18,8 @@ const AdminPageContainer: React.FC = () => {
 
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
   const [imagesToBeDeleted, setImagesToBeDeleted] = useState<number[]>([]);
-
+  const [orderedProjects, setOrderedProjects] = useState<Project[]>([]);
+  console.log("orderedProjects", orderedProjects);
   const [newProject, setNewProject] = useState<ProjectWithMixedImages>({
     id: 0,
     name: "",
@@ -34,7 +36,26 @@ const AdminPageContainer: React.FC = () => {
     handleUpdateProject,
     handleDeleteProject,
     handleResetToastMessage,
+    updateProjectOrder,
   } = useHandleProjects();
+
+  const onDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      setOrderedProjects((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over?.id);
+
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
+
+  // Update orderedProjects when projectsList changes, unless dragging
+  useEffect(() => {
+    setOrderedProjects(projectsList);
+  }, [projectsList]);
 
   // Fetch Projects on Token Change
   useEffect(() => {
@@ -43,7 +64,7 @@ const AdminPageContainer: React.FC = () => {
     } else {
       handleFetchProjects();
     }
-  }, [token, handleFetchProjects]);
+  }, [token, handleFetchProjects, navigate]);
 
   // Input Change Handler
   const handleInputChange = (
@@ -195,12 +216,26 @@ const AdminPageContainer: React.FC = () => {
     handleBackToHome();
   };
 
+  // Update the sort order on the backend
+  const handleUpdateSort = async () => {
+    const projectIds = orderedProjects.map((project) => project.id);
+    try {
+      await updateProjectOrder(projectIds);
+      handleFetchProjects(); // Refresh the projects list
+    } catch (error) {
+      console.error("Error updating project order:", error);
+      alert("An error occurred while updating the project order.");
+    }
+  };
+
   return (
     <AdminPage
-      projectsList={projectsList}
+      projectsList={orderedProjects}
       toastMessage={toastMessage}
       handleResetToastMessage={handleResetToastMessage}
       newProject={newProject}
+      onDragEnd={onDragEnd}
+      handleUpdateSort={handleUpdateSort}
       handleInputChange={handleInputChange}
       handleFileChange={handleFileChange}
       handleAddProjectClick={handleAddProjectClick}

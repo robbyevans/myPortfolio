@@ -138,6 +138,32 @@ export const deleteProject = createAsyncThunk<number, number>(
   }
 );
 
+// sort projects
+export const updateProjectOrderThunk = createAsyncThunk<void, number[]>(
+  "projects/updateProjectOrder",
+  async (projectIds, { rejectWithValue }) => {
+    try {
+      const token = getAuthToken();
+      await axiosInstance.patch(
+        "/projects/update_order",
+        { project_ids: projectIds },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        return rejectWithValue(
+          err.response.data.error || "Failed to update project order."
+        );
+      }
+      return rejectWithValue("An unknown error occurred.");
+    }
+  }
+);
+
 // Slice
 const projectsSlice = createSlice({
   extraReducers: (builder) => {
@@ -253,6 +279,30 @@ const projectsSlice = createSlice({
         showToastMessage: true,
         variant: "error",
         message: "Failed to delete project",
+      };
+    });
+
+    builder.addCase(updateProjectOrderThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+
+    builder.addCase(updateProjectOrderThunk.fulfilled, (state) => {
+      state.loading = false;
+      state.toastMessage = {
+        showToastMessage: true,
+        variant: "success",
+        message: "Project order updated successfully",
+      };
+    });
+
+    builder.addCase(updateProjectOrderThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+      state.toastMessage = {
+        showToastMessage: true,
+        variant: "error",
+        message: "Failed to update project order",
       };
     });
   },

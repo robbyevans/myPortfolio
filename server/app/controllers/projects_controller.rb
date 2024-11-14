@@ -16,6 +16,8 @@ end
   # POST /projects
   def create
     @project = Project.new(project_params)
+    @project.position = Project.maximum(:position).to_i + 1
+    
     if @project.save
       render json: project_with_images(@project), status: :created
     else
@@ -48,6 +50,19 @@ end
     head :no_content
   end
 
+    # PATCH /projects/update_order
+    def update_order
+      Project.transaction do
+        params[:project_ids].each_with_index do |id, index|
+          project = Project.find(id)
+          project.update!(position: index)
+        end
+      end
+      render json: { message: 'Projects reordered successfully' }, status: :ok
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { error: e.message }, status: :unprocessable_entity
+    end
+
   private
 
   def authorize_request
@@ -61,7 +76,7 @@ end
   end
 
   def project_params
-    params.require(:project).permit(:name, :description, :live_link,images: [])
+    params.require(:project).permit(:name, :description, :live_link,:position, images: [])
   end
 
   def project_with_images(project)
