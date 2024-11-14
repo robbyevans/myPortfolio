@@ -215,7 +215,6 @@ const AdminPageContainer: React.FC = () => {
     const projectIds = orderedProjects.map((project) => project.id);
     try {
       await updateProjectOrder(projectIds);
-      handleFetchProjects();
     } catch (error) {
       console.error("Error updating project order:", error);
       alert("An error occurred while updating the project order.");
