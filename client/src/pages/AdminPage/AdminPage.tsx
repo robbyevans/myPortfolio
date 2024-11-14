@@ -20,7 +20,7 @@ import {
 } from "@dnd-kit/sortable";
 import {
   restrictToVerticalAxis,
-  // restrictToParentElement,
+  restrictToParentElement,
 } from "@dnd-kit/modifiers";
 import SortableItem from "../../components/SortableItem/SortableItem";
 
@@ -186,7 +186,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
           collisionDetection={closestCenter}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
-          modifiers={[restrictToVerticalAxis]} // Removed restrictToParentElement
+          modifiers={[restrictToVerticalAxis, restrictToParentElement]} // Removed restrictToParentElement
         >
           <SortableContext
             items={projectsList.map((project) => project.id.toString())} // Ensure IDs are strings

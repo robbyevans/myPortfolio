@@ -22,7 +22,7 @@ const SortableItem: React.FC<SortableItemProps> = ({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: project.id.toString() }); // Use string ID for Dnd-Kit
+  } = useSortable({ id: project.id.toString() });
 
   return (
     <S.SortableItemContainer
@@ -31,10 +31,10 @@ const SortableItem: React.FC<SortableItemProps> = ({
       $transform={CSS.Transform.toString(transform) || null}
       $transition={transition}
     >
-      <S.DragHandle {...attributes} {...listeners}>
-        ☰
-      </S.DragHandle>
-      <span>{project.name}</span>
+      <S.ContentWrapper {...attributes} {...listeners}>
+        <S.DragHandle>☰</S.DragHandle>
+        <span>{project.name}</span>
+      </S.ContentWrapper>
 
       <S.ButtonsWrapper>
         <S.EditButton onClick={() => handleEditProject(project)}>

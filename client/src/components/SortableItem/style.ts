@@ -32,7 +32,6 @@ export const DragHandle = styled.div`
   padding-right: 10px;
   user-select: none;
   font-size: 1.5rem;
-  touch-action: none; /* Prevents scrolling when dragging */
 `;
 
 export const ButtonsWrapper = styled.div`
@@ -72,4 +71,11 @@ export const DeleteButton = styled.button`
 
 export const projectTitleWrapper = styled.div`
   width: 100%;
+`;
+
+export const ContentWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  touch-action: none; /* Prevents scrolling when dragging */
 `;
