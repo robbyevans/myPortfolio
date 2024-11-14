@@ -1,8 +1,11 @@
+// /client/src/pages/AdminPage/AdminPage.tsx
+
 import React, { useState } from "react";
 import * as S from "./styles";
 import ToastMessage from "../../components/ToastMessage/ToastMessage";
 import { Project, ImageData, IToastMessage } from "../../store/projectSlice";
 import { GoSignOut } from "react-icons/go";
+import { FaUpload } from "react-icons/fa";
 import {
   DndContext,
   closestCenter,
@@ -24,7 +27,7 @@ import {
   restrictToParentElement,
 } from "@dnd-kit/modifiers";
 import SortableItem from "../../components/SortableItem/SortableItem";
-import { FaUpload } from "react-icons/fa";
+import ConfirmDelete from "../../components/ConfirmDelete/ConfirmDelete"; // Import the ConfirmDelete component
 
 interface ProjectWithMixedImages extends Omit<Project, "images"> {
   images: (ImageData | File)[];
@@ -84,6 +87,10 @@ const AdminPage: React.FC<AdminPageProps> = ({
 
   const [activeId, setActiveId] = useState<string | null>(null);
 
+  // State for ConfirmDelete Modal
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
+
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event;
     setActiveId(active.id.toString());
@@ -107,6 +114,31 @@ const AdminPage: React.FC<AdminPageProps> = ({
         <span>{activeProject.name}</span>
       </S.DragOverlayContainer>
     );
+  };
+
+  // Function to open the delete confirmation modal
+  const openDeleteModal = (project: Project) => {
+    setProjectToDelete(project);
+    setIsDeleteModalOpen(true);
+  };
+
+  // Function to close the delete confirmation modal
+  const closeDeleteModal = () => {
+    setProjectToDelete(null);
+    setIsDeleteModalOpen(false);
+  };
+
+  // Function to confirm deletion
+  const confirmDelete = async () => {
+    if (projectToDelete) {
+      try {
+        await handleDeleteProjectClick(projectToDelete.id);
+        closeDeleteModal();
+      } catch (error) {
+        console.error("Error deleting project:", error);
+        // Optionally, show a toast message here
+      }
+    }
   };
 
   return (
@@ -146,9 +178,10 @@ const AdminPage: React.FC<AdminPageProps> = ({
           onChange={handleInputChange}
         />
         <S.FileInputWrapper>
-          <label htmlFor="file-upload" className="custom-file-upload">
-            <FaUpload size={24} /> Upload Images
-          </label>
+          <S.FileUploadLabel htmlFor="file-upload">
+            <FaUpload size={24} />
+            Upload Images
+          </S.FileUploadLabel>
           <S.FileInput
             id="file-upload"
             type="file"
@@ -203,7 +236,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
                 key={project.id}
                 project={project}
                 handleEditProject={handleEditProject}
-                handleDeleteProjectClick={handleDeleteProjectClick}
+                handleDeleteProjectClick={() => openDeleteModal(project)}
               />
             ))}
           </SortableContext>
@@ -211,6 +244,14 @@ const AdminPage: React.FC<AdminPageProps> = ({
         </DndContext>
       </S.ProjectList>
       <S.Button onClick={handleUpdateSort}>Update Sort</S.Button>
+
+      {/* ConfirmDelete Modal */}
+      <ConfirmDelete
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        onConfirm={confirmDelete}
+        projectName={projectToDelete ? projectToDelete.name : ""}
+      />
     </S.AdminContainer>
   );
 };
