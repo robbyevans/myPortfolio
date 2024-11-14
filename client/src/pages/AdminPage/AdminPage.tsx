@@ -131,13 +131,8 @@ const AdminPage: React.FC<AdminPageProps> = ({
   // Function to confirm deletion
   const confirmDelete = async () => {
     if (projectToDelete) {
-      try {
-        await handleDeleteProjectClick(projectToDelete.id);
-        closeDeleteModal();
-      } catch (error) {
-        console.error("Error deleting project:", error);
-        // Optionally, show a toast message here
-      }
+      handleDeleteProjectClick(projectToDelete.id);
+      closeDeleteModal();
     }
   };
 
@@ -213,7 +208,9 @@ const AdminPage: React.FC<AdminPageProps> = ({
             <S.Button onClick={handleUpdateProjectClick}>
               Update Project
             </S.Button>
-            <S.CancelButton onClick={handleCancelEdit}>Cancel</S.CancelButton>
+            <S.Button $variantSecondary onClick={handleCancelEdit}>
+              Cancel
+            </S.Button>
           </>
         ) : (
           <S.Button onClick={handleAddProjectClick}>Add Project</S.Button>

@@ -46,7 +46,7 @@ export const ButtonsWrapper = styled.div`
 export const CancelButton = styled.button`
   padding: 10px 20px;
   background-color: ${(props) => props.theme.colors.secondary};
-  color: #fff;
+  color: ${(props) => props.theme.colors.text};
   border: none;
   border-radius: 5px;
   cursor: pointer;

@@ -77,27 +77,23 @@ export const FileUploadLabel = styled.label`
   }
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<{ $variantSecondary?: boolean }>`
   margin-top: 15px;
   padding: 12px 20px;
   font-size: 1rem;
-  background-color: ${(props) => props.theme.colors.primary};
-  color: #fff;
+  background-color: ${(props) =>
+    props.$variantSecondary ? "#CFCFCF" : props.theme.colors.primary};
+  color: aliceblue;
   border: none;
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: ${(props) => props.theme.colors.cardHover};
-  }
-`;
-
-export const CancelButton = styled(Button)`
-  background-color: #e53935;
-
-  &:hover {
-    background-color: #b71c1c;
+    background-color: ${(props) =>
+      props.$variantSecondary
+        ? props.theme.colors.darkGrey
+        : props.theme.colors.cardHover};
   }
 `;
 
