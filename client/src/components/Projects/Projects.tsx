@@ -34,48 +34,50 @@ const Projects: React.FC<ProjectsProps> = ({ projectsList, loading }) => {
     };
   }, [selectedProject]);
 
-  if (loading) {
-    return (
-      <S.ProjectGrid>
-        {Array(6)
-          .fill(0)
-          .map((_, index) => (
-            <S.SkeletonCard key={index}>
-              <S.SkeletonImage />
-              <S.SkeletonText />
-              <S.SkeletonText />
-            </S.SkeletonCard>
-          ))}
-      </S.ProjectGrid>
-    );
-  }
+  const renderSkeleton = () => (
+    <S.ProjectGrid>
+      {Array(6)
+        .fill(0)
+        .map((_, index) => (
+          <S.SkeletonCard key={index}>
+            <S.SkeletonImage />
+            <S.SkeletonText />
+            <S.SkeletonText />
+          </S.SkeletonCard>
+        ))}
+    </S.ProjectGrid>
+  );
 
   return (
     <S.SectionContainer>
       <S.ProjectsWrapper>
         <S.Title>Projects</S.Title>
-        <S.ProjectGrid>
-          {Array.isArray(projectsList) &&
-            projectsList.map((project) => (
-              <S.ProjectCard
-                key={project?.id}
-                onClick={() => handleCardClick(project)}
-              >
-                <S.ProjectImage
-                  src={
-                    project.images && project.images[0]
-                      ? project.images[0].url
-                      : "placeholder_image_url"
-                  }
-                  alt={project.name}
-                />
-                <S.ProjectInfo>
-                  <h3>{project.name}</h3>
-                  <S.Description>{project.description}</S.Description>
-                </S.ProjectInfo>
-              </S.ProjectCard>
-            ))}
-        </S.ProjectGrid>
+        {loading ? (
+          renderSkeleton()
+        ) : (
+          <S.ProjectGrid>
+            {Array.isArray(projectsList) &&
+              projectsList.map((project) => (
+                <S.ProjectCard
+                  key={project?.id}
+                  onClick={() => handleCardClick(project)}
+                >
+                  <S.ProjectImage
+                    src={
+                      project.images && project.images[0]
+                        ? project.images[0].url
+                        : "placeholder_image_url"
+                    }
+                    alt={project.name}
+                  />
+                  <S.ProjectInfo>
+                    <h3>{project.name}</h3>
+                    <S.Description>{project.description}</S.Description>
+                  </S.ProjectInfo>
+                </S.ProjectCard>
+              ))}
+          </S.ProjectGrid>
+        )}
         {selectedProject && (
           <ProjectModal project={selectedProject} onClose={closeModal} />
         )}
