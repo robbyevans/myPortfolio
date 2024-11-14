@@ -5,7 +5,6 @@ import { Project, ImageData } from "../store/projectSlice";
 import AdminPage from "../pages/AdminPage/AdminPage";
 import { useUser } from "../hooks/useUser";
 import { DragEndEvent } from "@dnd-kit/core";
-
 import { arrayMove } from "@dnd-kit/sortable";
 
 interface ProjectWithMixedImages extends Omit<Project, "images"> {
@@ -19,9 +18,8 @@ const AdminPageContainer: React.FC = () => {
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
   const [imagesToBeDeleted, setImagesToBeDeleted] = useState<number[]>([]);
   const [orderedProjects, setOrderedProjects] = useState<Project[]>([]);
-  console.log("orderedProjects", orderedProjects);
   const [newProject, setNewProject] = useState<ProjectWithMixedImages>({
-    id: 0,
+    id: 0, // Keep as number
     name: "",
     description: "",
     images: [],
@@ -44,15 +42,24 @@ const AdminPageContainer: React.FC = () => {
 
     if (active.id !== over?.id) {
       setOrderedProjects((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over?.id);
+        const oldIndex = items.findIndex(
+          (item) => item.id === Number(active.id)
+        );
+        const newIndex = items.findIndex(
+          (item) => item.id === Number(over?.id)
+        );
+
+        // Guard against invalid indices
+        if (oldIndex === -1 || newIndex === -1) {
+          return items;
+        }
 
         return arrayMove(items, oldIndex, newIndex);
       });
     }
   };
 
-  // Update orderedProjects when projectsList changes, unless dragging
+  // Update orderedProjects when projectsList changes
   useEffect(() => {
     setOrderedProjects(projectsList);
   }, [projectsList]);
@@ -173,7 +180,7 @@ const AdminPageContainer: React.FC = () => {
   const handleEditProject = (project: Project) => {
     setCurrentProject(project);
     setNewProject({
-      id: project.id,
+      id: project.id, // Keep as number
       name: project.name,
       description: project.description,
       live_link: project.live_link,
@@ -218,7 +225,7 @@ const AdminPageContainer: React.FC = () => {
 
   // Update the sort order on the backend
   const handleUpdateSort = async () => {
-    const projectIds = orderedProjects.map((project) => project.id);
+    const projectIds = orderedProjects.map((project) => project.id); // Keep as numbers
     try {
       await updateProjectOrder(projectIds);
       handleFetchProjects(); // Refresh the projects list

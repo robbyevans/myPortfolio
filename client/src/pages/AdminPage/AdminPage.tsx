@@ -13,15 +13,16 @@ import {
   DragOverlay,
   DragStartEvent,
 } from "@dnd-kit/core";
-
 import {
   sortableKeyboardCoordinates,
   SortableContext,
   verticalListSortingStrategy,
-  useSortable,
 } from "@dnd-kit/sortable";
-
-import { CSS } from "@dnd-kit/utilities";
+import {
+  restrictToVerticalAxis,
+  // restrictToParentElement,
+} from "@dnd-kit/modifiers";
+import SortableItem from "../../components/SortableItem/SortableItem";
 
 interface ProjectWithMixedImages extends Omit<Project, "images"> {
   images: (ImageData | File)[];
@@ -70,7 +71,11 @@ const AdminPage: React.FC<AdminPageProps> = ({
 }) => {
   // Initialize sensors for dragging
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5, // Adjust the distance as needed
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -89,44 +94,6 @@ const AdminPage: React.FC<AdminPageProps> = ({
     setActiveId(null);
     onDragEnd(event);
   };
-  // Define the SortableItem component
-  const SortableItem: React.FC<{ project: Project }> = ({ project }) => {
-    const {
-      attributes,
-      listeners,
-      setNodeRef,
-      transform,
-      transition,
-      isDragging,
-    } = useSortable({ id: project.id });
-
-    const style = {
-      transform: CSS.Transform.toString(transform),
-      transition,
-      opacity: isDragging ? 0.5 : 1,
-      boxShadow: isDragging ? "0 0 10px rgba(0,0,0,0.5)" : "none",
-      backgroundColor: isDragging ? "#f0f0f0" : "#fff",
-      padding: "15px 10px",
-      borderBottom: "1px solid #ccc",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-    };
-
-    return (
-      <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-        <span>{project.name}</span>
-        <S.ButtonsWrapper>
-          <S.EditButton onClick={() => handleEditProject(project)}>
-            Edit
-          </S.EditButton>
-          <S.DeleteButton onClick={() => handleDeleteProjectClick(project.id)}>
-            Delete
-          </S.DeleteButton>
-        </S.ButtonsWrapper>
-      </div>
-    );
-  };
 
   const renderDragOverlay = () => {
     if (!activeId) return null;
@@ -137,41 +104,23 @@ const AdminPage: React.FC<AdminPageProps> = ({
     if (!activeProject) return null;
 
     return (
-      <div
-        style={{
-          padding: "15px 10px",
-          borderBottom: "1px solid #ccc",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          backgroundColor: "#f0f0f0",
-          boxShadow: "0 0 10px rgba(0,0,0,0.5)",
-        }}
-      >
+      <S.DragOverlayContainer>
         <span>{activeProject.name}</span>
-        <S.ButtonsWrapper>
-          <S.EditButton onClick={() => handleEditProject(activeProject)}>
-            Edit
-          </S.EditButton>
-          <S.DeleteButton
-            onClick={() => handleDeleteProjectClick(activeProject.id)}
-          >
-            Delete
-          </S.DeleteButton>
-        </S.ButtonsWrapper>
-      </div>
+      </S.DragOverlayContainer>
     );
   };
 
   return (
     <S.AdminContainer>
-      <S.BackButton onClick={handleLogout}>Logout</S.BackButton>
+      <S.NavButtonsWrapper>
+        <S.BackButton onClick={handleBackToHome}>Back to Home</S.BackButton>
+        <S.BackButton onClick={handleLogout}>Logout</S.BackButton>
+      </S.NavButtonsWrapper>
       <ToastMessage
         toastMessage={toastMessage}
         isAutoclose={true}
         handleClose={handleResetToastMessage}
       />
-      <S.BackButton onClick={handleBackToHome}>Back to Home</S.BackButton>
       <h2>Admin Portal</h2>
       <S.Form>
         <S.Input
@@ -237,13 +186,19 @@ const AdminPage: React.FC<AdminPageProps> = ({
           collisionDetection={closestCenter}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
+          modifiers={[restrictToVerticalAxis]} // Removed restrictToParentElement
         >
           <SortableContext
-            items={projectsList.map((project) => project.id)}
+            items={projectsList.map((project) => project.id.toString())} // Ensure IDs are strings
             strategy={verticalListSortingStrategy}
           >
             {projectsList.map((project) => (
-              <SortableItem key={project.id} project={project} />
+              <SortableItem
+                key={project.id}
+                project={project}
+                handleEditProject={handleEditProject}
+                handleDeleteProjectClick={handleDeleteProjectClick}
+              />
             ))}
           </SortableContext>
           <DragOverlay>{renderDragOverlay()}</DragOverlay>
