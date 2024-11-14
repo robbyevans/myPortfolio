@@ -3,6 +3,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import * as S from "./style";
 import { Project } from "../../store/projectSlice";
+import { GoTrash, GoPencil } from "react-icons/go";
 
 interface SortableItemProps {
   project: Project;
@@ -37,12 +38,18 @@ const SortableItem: React.FC<SortableItemProps> = ({
       </S.ContentWrapper>
 
       <S.ButtonsWrapper>
-        <S.EditButton onClick={() => handleEditProject(project)}>
-          Edit
-        </S.EditButton>
-        <S.DeleteButton onClick={() => handleDeleteProjectClick(project.id)}>
-          Delete
-        </S.DeleteButton>
+        <S.IconButton
+          onClick={() => handleEditProject(project)}
+          aria-label="Edit Project"
+        >
+          <GoPencil color="" />
+        </S.IconButton>
+        <S.IconButton
+          onClick={() => handleDeleteProjectClick(project.id)}
+          aria-label="Delete Project"
+        >
+          <GoTrash />
+        </S.IconButton>
       </S.ButtonsWrapper>
     </S.SortableItemContainer>
   );

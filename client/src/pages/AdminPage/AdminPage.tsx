@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as S from "./styles";
 import ToastMessage from "../../components/ToastMessage/ToastMessage";
 import { Project, ImageData, IToastMessage } from "../../store/projectSlice";
+import { GoSignOut } from "react-icons/go";
 import {
   DndContext,
   closestCenter,
@@ -23,6 +24,7 @@ import {
   restrictToParentElement,
 } from "@dnd-kit/modifiers";
 import SortableItem from "../../components/SortableItem/SortableItem";
+import { FaUpload } from "react-icons/fa";
 
 interface ProjectWithMixedImages extends Omit<Project, "images"> {
   images: (ImageData | File)[];
@@ -111,7 +113,10 @@ const AdminPage: React.FC<AdminPageProps> = ({
     <S.AdminContainer>
       <S.NavButtonsWrapper>
         <S.BackButton onClick={handleBackToHome}>Back to Home</S.BackButton>
-        <S.BackButton onClick={handleLogout}>Logout</S.BackButton>
+        <S.BackButton onClick={handleLogout}>
+          Logout
+          <GoSignOut />
+        </S.BackButton>
       </S.NavButtonsWrapper>
       <ToastMessage
         toastMessage={toastMessage}
@@ -141,7 +146,11 @@ const AdminPage: React.FC<AdminPageProps> = ({
           onChange={handleInputChange}
         />
         <S.FileInputWrapper>
+          <label htmlFor="file-upload" className="custom-file-upload">
+            <FaUpload size={24} /> Upload Images
+          </label>
           <S.FileInput
+            id="file-upload"
             type="file"
             name="images"
             multiple

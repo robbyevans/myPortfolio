@@ -44,12 +44,37 @@ export const TextArea = styled.textarea`
 `;
 
 export const FileInputWrapper = styled.div`
+  min-height: 50px;
   margin: 10px 0;
+  position: relative;
+  display: flex;
+  align-items: center;
 `;
 
 export const FileInput = styled.input`
-  font-size: 1rem;
+  display: none;
+`;
+
+export const FileUploadLabel = styled.label`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px dashed ${(props) => props.theme.colors.border};
+  border-radius: 5px;
+  padding: 20px;
+  background-color: ${(props) => props.theme.colors.background};
   color: ${(props) => props.theme.colors.text};
+  transition: background-color 0.3s, border-color 0.3s;
+
+  &:hover {
+    background-color: ${(props) => props.theme.colors.hoverBackground};
+    border-color: ${(props) => props.theme.colors.primary};
+  }
+
+  svg {
+    margin-right: 10px;
+  }
 `;
 
 export const Button = styled.button`
@@ -77,13 +102,15 @@ export const CancelButton = styled(Button)`
 `;
 
 export const BackButton = styled.button`
-  margin-bottom: 20px;
   padding: 10px 15px;
   background-color: ${(props) => props.theme.colors.cardBackground};
   color: ${(props) => props.theme.colors.text};
   border: 1px solid ${(props) => props.theme.colors.Primary};
   cursor: pointer;
   border-radius: 5px;
+  align-items: center;
+  gap: 8px;
+  display: flex;
 `;
 
 export const ProjectList = styled.ul`
@@ -229,6 +256,7 @@ export const DragOverlayContainer = styled.div`
 `;
 
 export const NavButtonsWrapper = styled.div`
+  margin-bottom: 20px;
   width: 100%;
   display: flex;
   align-items: center;

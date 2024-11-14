@@ -40,32 +40,21 @@ export const ButtonsWrapper = styled.div`
   min-width: 135px;
 `;
 
-export const EditButton = styled.button`
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  background-color: ${(props) => props.theme.colors.primary};
-  color: #fff;
+export const IconButton = styled.button`
+  background: transparent;
   border: none;
+  color: ${(props) => props.theme.colors.text};
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  font-size: 1.2rem;
+  transition: color 0.3s;
 
   &:hover {
-    background-color: ${(props) => props.theme.colors.cardHover};
+    color: ${(props) => props.theme.colors.iconHoverColor};
   }
-`;
 
-export const DeleteButton = styled.button`
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  background-color: #e53935;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-
-  &:hover {
-    background-color: #b71c1c;
+  &:focus {
+    outline: none;
+    color: ${(props) => props.theme.colors.iconFocusColor};
   }
 `;
 
