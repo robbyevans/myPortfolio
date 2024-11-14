@@ -1,5 +1,3 @@
-// src/components/Projects/Projects.tsx
-
 import React, { useState, useEffect } from "react";
 import * as S from "./styles";
 import ProjectModal from "../ProjectModal/ProjectModal";
@@ -21,7 +19,6 @@ const Projects: React.FC<ProjectsProps> = ({ projectsList, loading }) => {
     setSelectedProject(null);
   };
 
-  // Prevent background scrolling when the modal is open
   useEffect(() => {
     if (selectedProject) {
       document.body.style.overflow = "hidden";

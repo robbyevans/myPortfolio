@@ -13,7 +13,6 @@ const AuthContainer: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get the location the user was trying to access before redirect
   const from =
     (location.state as { from?: Location })?.from?.pathname || "/admin";
 
@@ -28,7 +27,6 @@ const AuthContainer: React.FC = () => {
     if (view === "login") {
       handleLogin(email, password);
     } else {
-      // Validate that password and confirmPassword match
       if (password !== confirmPassword) {
         alert("Passwords do not match");
         return;
@@ -47,12 +45,12 @@ const AuthContainer: React.FC = () => {
       view={view}
       email={email}
       password={password}
-      confirmPassword={confirmPassword} // Add this line
+      confirmPassword={confirmPassword}
       loading={loading}
       error={error}
       onEmailChange={setEmail}
       onPasswordChange={setPassword}
-      onConfirmPasswordChange={setConfirmPassword} // Add this line
+      onConfirmPasswordChange={setConfirmPassword}
       onSubmit={handleSubmit}
       onSwitchView={switchView}
     />

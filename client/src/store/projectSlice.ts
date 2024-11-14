@@ -40,10 +40,8 @@ const initialState: ProjectsState = {
   },
 };
 
-// Helper function to retrieve token from localStorage
 const getAuthToken = () => localStorage.getItem("authToken");
 
-// Async Thunks
 export const fetchProjects = createAsyncThunk<Project[]>(
   "projects/fetchProjects",
   async (_, { rejectWithValue }) => {
@@ -65,7 +63,7 @@ export const addProject = createAsyncThunk<Project, FormData>(
   "projects/addProject",
   async (formData, { rejectWithValue }) => {
     try {
-      const token = getAuthToken(); // Get token from localStorage
+      const token = getAuthToken();
       const response = await axiosInstance.post<Project>(
         `/projects`,
         formData,
@@ -93,7 +91,7 @@ export const updateProject = createAsyncThunk<
   { id: number; formData: FormData }
 >("projects/updateProject", async ({ id, formData }, { rejectWithValue }) => {
   try {
-    const token = getAuthToken(); // Get token from localStorage
+    const token = getAuthToken();
     const response = await axiosInstance.patch<Project>(
       `/projects/${id}`,
 
@@ -120,7 +118,7 @@ export const deleteProject = createAsyncThunk<number, number>(
   "projects/deleteProject",
   async (id, { rejectWithValue }) => {
     try {
-      const token = getAuthToken(); // Get token from localStorage
+      const token = getAuthToken();
       await axiosInstance.delete(`/projects/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,

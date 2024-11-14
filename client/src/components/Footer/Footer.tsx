@@ -1,4 +1,3 @@
-// Footer.tsx
 import React from "react";
 import * as S from "./styles";
 import { useNavigate } from "react-router-dom";

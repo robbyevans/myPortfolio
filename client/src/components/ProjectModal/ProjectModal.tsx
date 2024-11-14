@@ -1,5 +1,3 @@
-// src/components/ProjectModal/ProjectModal.tsx
-
 import React, { useEffect, useState } from "react";
 import * as S from "./styles";
 import { FaChevronLeft, FaChevronRight, FaTimes } from "react-icons/fa";

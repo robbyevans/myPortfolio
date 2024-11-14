@@ -69,11 +69,10 @@ const AdminPage: React.FC<AdminPageProps> = ({
   handleBackToHome,
   handleLogout,
 }) => {
-  // Initialize sensors for dragging
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5, // Adjust the distance as needed
+        distance: 5,
       },
     }),
     useSensor(KeyboardSensor, {
@@ -81,10 +80,8 @@ const AdminPage: React.FC<AdminPageProps> = ({
     })
   );
 
-  // Active ID State
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  // Handlers
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event;
     setActiveId(active.id.toString());
@@ -186,10 +183,10 @@ const AdminPage: React.FC<AdminPageProps> = ({
           collisionDetection={closestCenter}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
-          modifiers={[restrictToVerticalAxis, restrictToParentElement]} // Removed restrictToParentElement
+          modifiers={[restrictToVerticalAxis, restrictToParentElement]}
         >
           <SortableContext
-            items={projectsList.map((project) => project.id.toString())} // Ensure IDs are strings
+            items={projectsList.map((project) => project.id.toString())}
             strategy={verticalListSortingStrategy}
           >
             {projectsList.map((project) => (

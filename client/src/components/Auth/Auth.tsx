@@ -1,5 +1,3 @@
-// File: /client/src/components/Auth/Auth.tsx
-
 import React from "react";
 import * as S from "./styles";
 import { RoughNotation } from "react-rough-notation";

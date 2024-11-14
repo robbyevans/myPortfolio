@@ -1,5 +1,3 @@
-// src/components/GithubSection/styles.ts
-
 import styled from "styled-components";
 
 export const Section = styled.section`
@@ -20,12 +18,10 @@ export const ChartContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  /* Customize GitHub Calendar colors */
   .react-activity-calendar {
     max-width: 100%;
   }
 
-  /* Adjust the colors of the contributions */
   .react-activity-calendar__block {
     stroke: none;
   }

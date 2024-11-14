@@ -1,5 +1,3 @@
-// src/pages/portfolioPage/PortfolioPage.tsx
-
 import React, { useEffect } from "react";
 import Header from "../../components/Header/Header";
 import Github from "../../components/GithubSection/GithubSection";

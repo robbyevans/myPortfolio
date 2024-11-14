@@ -19,7 +19,7 @@ const AdminPageContainer: React.FC = () => {
   const [imagesToBeDeleted, setImagesToBeDeleted] = useState<number[]>([]);
   const [orderedProjects, setOrderedProjects] = useState<Project[]>([]);
   const [newProject, setNewProject] = useState<ProjectWithMixedImages>({
-    id: 0, // Keep as number
+    id: 0,
     name: "",
     description: "",
     images: [],
@@ -49,7 +49,6 @@ const AdminPageContainer: React.FC = () => {
           (item) => item.id === Number(over?.id)
         );
 
-        // Guard against invalid indices
         if (oldIndex === -1 || newIndex === -1) {
           return items;
         }
@@ -59,12 +58,10 @@ const AdminPageContainer: React.FC = () => {
     }
   };
 
-  // Update orderedProjects when projectsList changes
   useEffect(() => {
     setOrderedProjects(projectsList);
   }, [projectsList]);
 
-  // Fetch Projects on Token Change
   useEffect(() => {
     if (!token) {
       navigate("/login");
@@ -73,14 +70,12 @@ const AdminPageContainer: React.FC = () => {
     }
   }, [token, handleFetchProjects, navigate]);
 
-  // Input Change Handler
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setNewProject({ ...newProject, [e.target.name]: e.target.value });
   };
 
-  // File Change Handler
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
@@ -100,7 +95,6 @@ const AdminPageContainer: React.FC = () => {
     }
   };
 
-  // Add Project Handler
   const handleAddProjectClick = async () => {
     const formData = new FormData();
     formData.append("project[name]", newProject.name || "");
@@ -128,7 +122,6 @@ const AdminPageContainer: React.FC = () => {
     }
   };
 
-  // Update Project Handler
   const handleUpdateProjectClick = async () => {
     if (!currentProject) return;
 
@@ -166,7 +159,6 @@ const AdminPageContainer: React.FC = () => {
     }
   };
 
-  // Delete Project Handler
   const handleDeleteProjectClick = async (id: number) => {
     try {
       await handleDeleteProject(id);
@@ -176,11 +168,10 @@ const AdminPageContainer: React.FC = () => {
     }
   };
 
-  // Edit Project Handler
   const handleEditProject = (project: Project) => {
     setCurrentProject(project);
     setNewProject({
-      id: project.id, // Keep as number
+      id: project.id,
       name: project.name,
       description: project.description,
       live_link: project.live_link,
@@ -189,7 +180,6 @@ const AdminPageContainer: React.FC = () => {
     setImagesToBeDeleted([]);
   };
 
-  // Remove Image Handler
   const handleRemoveImage = (index: number) => {
     const updatedImages = [...newProject.images];
     const removedImage = updatedImages.splice(index, 1)[0];
@@ -200,7 +190,6 @@ const AdminPageContainer: React.FC = () => {
     setNewProject({ ...newProject, images: updatedImages });
   };
 
-  // Cancel Edit Handler
   const handleCancelEdit = () => {
     setCurrentProject(null);
     setNewProject({
@@ -213,7 +202,6 @@ const AdminPageContainer: React.FC = () => {
     setImagesToBeDeleted([]);
   };
 
-  // Navigate Back to Home
   const handleBackToHome = () => {
     navigate("/");
   };
@@ -223,12 +211,11 @@ const AdminPageContainer: React.FC = () => {
     handleBackToHome();
   };
 
-  // Update the sort order on the backend
   const handleUpdateSort = async () => {
-    const projectIds = orderedProjects.map((project) => project.id); // Keep as numbers
+    const projectIds = orderedProjects.map((project) => project.id);
     try {
       await updateProjectOrder(projectIds);
-      handleFetchProjects(); // Refresh the projects list
+      handleFetchProjects();
     } catch (error) {
       console.error("Error updating project order:", error);
       alert("An error occurred while updating the project order.");

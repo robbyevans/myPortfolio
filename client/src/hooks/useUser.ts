@@ -1,5 +1,3 @@
-// src/hooks/useUser.ts
-
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { loginUser, signupUser, logout, clearError } from "../store/userSlice";

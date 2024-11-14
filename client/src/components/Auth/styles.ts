@@ -1,5 +1,3 @@
-// File: /client/src/components/Auth/styles.ts
-
 import styled from "styled-components";
 
 export const AuthContainer = styled.div`
