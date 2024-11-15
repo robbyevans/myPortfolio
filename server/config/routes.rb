@@ -7,6 +7,10 @@ Rails.application.routes.draw do
     end
   end
 
+  
   post '/login', to: 'authentication#login'
   post '/signup', to: 'authentication#signup'
+  
+  # Mount ActiveStorage routes
+  mount ActiveStorage::Engine => '/rails/active_storage'
 end
