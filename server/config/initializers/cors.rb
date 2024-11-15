@@ -1,9 +1,6 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins ->(origin, _env) {
-      allowed_origins = ENV.fetch('CLIENT_ORIGIN', '').split(',').map(&:strip)
-      allowed_origins.include?(origin)
-    }
+    origins '*'
 
     resource '*',
       headers: :any,
