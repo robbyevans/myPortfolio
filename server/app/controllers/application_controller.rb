@@ -1,4 +1,8 @@
+# server/app/controllers/application_controller.rb
+
 class ApplicationController < ActionController::API
+  include Rails.application.routes.url_helpers
+
   private
 
   def authorize_request
@@ -15,5 +19,10 @@ class ApplicationController < ActionController::API
   def jwt_decode(token)
     decoded = JWT.decode(token, Rails.application.secret_key_base)[0]
     HashWithIndifferentAccess.new decoded
+  end
+
+  # Set default URL options
+  def default_url_options
+    { host: ENV['API_URL'], protocol: 'https' }
   end
 end
