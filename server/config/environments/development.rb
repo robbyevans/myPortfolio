@@ -10,6 +10,10 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  # config/environments/production.rb
+config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] || "redis://localhost:6379/0" }
+
+
   # Do not eager load code on boot.
   config.eager_load = false
 
