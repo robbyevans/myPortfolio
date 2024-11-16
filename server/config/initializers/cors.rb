@@ -1,6 +1,7 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '*'
+    # Replace the following with your actual frontend domains
+    origins 'https://portfolio-frontend-q4sa.onrender.com', 'https://evans-99l.pages.dev'
 
     resource '*',
       headers: :any,

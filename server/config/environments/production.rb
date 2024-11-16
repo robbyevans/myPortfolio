@@ -1,3 +1,5 @@
+# /server/config/environments/production.rb
+
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
@@ -6,9 +8,9 @@ Rails.application.configure do
   # Code is not reloaded between requests.
   config.cache_classes = true
 
-  # config/environments/production.rb
-config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] || "redis://localhost:6379/0" }
-
+  # Remove Redis cache store and switch to memory_store
+  # config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] || "redis://localhost:6379/0" }
+  config.cache_store = :memory_store, { size: 128.megabytes }
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers

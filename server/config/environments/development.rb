@@ -1,18 +1,17 @@
+# /server/config/environments/development.rb
+
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-
   Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
   # Settings specified here will take precedence over those in config/application.rb.
 
-  # In the development environment your application's code is reloaded any time
-  # it changes. This slows down response time but is perfect for development
+  # Reload application's code on every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
-  # config/environments/production.rb
-config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] || "redis://localhost:6379/0" }
-
+  # Set cache store to memory_store with a specified size
+  config.cache_store = :memory_store, { size: 64.megabytes }
 
   # Do not eager load code on boot.
   config.eager_load = false
@@ -24,9 +23,9 @@ config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] || "redis://loc
   config.server_timing = true
 
   # Enable/disable caching. By default caching is disabled.
-  # Run rails dev:cache to toggle caching.
+  # Run `rails dev:cache` to toggle caching.
   if Rails.root.join("tmp/caching-dev.txt").exist?
-    config.cache_store = :memory_store
+    config.cache_store = :memory_store, { size: 64.megabytes }
     config.public_file_server.headers = {
       "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
@@ -58,7 +57,6 @@ config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] || "redis://loc
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
-
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
