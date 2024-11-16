@@ -1,8 +1,8 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    # Replace with env variable 
-    origins 'https://portfolio-frontend-q4sa.onrender.com', 'https://evans-99l.pages.dev', 'http://localhost:5173/'
-
+    # Split the CLIENT_ORIGIN environment variable by commas and strip any whitespace
+    origins ENV['CLIENT_ORIGIN'].split(',').map(&:strip)
+    
     resource '*',
       headers: :any,
       expose: ['Content-Disposition', 'Content-Type'],
