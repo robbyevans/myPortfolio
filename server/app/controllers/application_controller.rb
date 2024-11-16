@@ -1,5 +1,3 @@
-# server/app/controllers/application_controller.rb
-
 class ApplicationController < ActionController::API
   include Rails.application.routes.url_helpers
 
@@ -23,6 +21,6 @@ class ApplicationController < ActionController::API
 
   # Set default URL options
   def default_url_options
-    { host: ENV['API_URL'], protocol: 'https' }
+    { host: URI.parse(ENV['API_URL']).host, protocol: URI.parse(ENV['API_URL']).scheme }
   end
 end

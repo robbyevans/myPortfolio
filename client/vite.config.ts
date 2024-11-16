@@ -18,16 +18,18 @@ export default defineConfig(({ mode }) => {
         "@": path.resolve(__dirname, "./src"), // Optional: for path aliasing
       },
     },
-    // Removed the 'define' property to prevent unnecessary mappings
-    server: {
-      port: 5173,
-      proxy: {
-        "/api": {
-          target: env.VITE_API_URL, // Use the API URL based on the mode
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ""),
-        },
-      },
-    },
+    server:
+      mode === "development"
+        ? {
+            port: 5173,
+            proxy: {
+              "/api": {
+                target: env.VITE_API_URL, // Use the API URL based on the mode
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, ""),
+              },
+            },
+          }
+        : undefined,
   };
 });

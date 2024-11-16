@@ -68,7 +68,7 @@ const useHandleProjects = () => {
     handleUpdateProject,
     handleDeleteProject,
     handleResetToastMessage,
-    updateProjectOrder
+    updateProjectOrder,
   };
 };
 
