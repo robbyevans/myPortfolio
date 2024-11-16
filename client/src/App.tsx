@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import GlobalStyle from "./globalStyles";
 import PortfolioPage from "./pages/portfolioPage/PortfolioPage";
 import AdminPageContainer from "./containers/AdminPageContainer";
 import AuthContainer from "./containers/AuthContainer";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
-import { logAllowedOrigins } from "./utils/debug";
+// import { logAllowedOrigins } from "./utils/debug";
 
 interface AppProps {
   toggleTheme: () => void;
@@ -13,9 +13,9 @@ interface AppProps {
 }
 
 const App: React.FC<AppProps> = ({ toggleTheme, theme }) => {
-  useEffect(() => {
-    logAllowedOrigins(); // Fetch and log allowed origins on mount
-  }, []);
+  // useEffect(() => {
+  //   logAllowedOrigins(); // Fetch and log allowed origins on mount
+  // }, []);
 
   return (
     <>
