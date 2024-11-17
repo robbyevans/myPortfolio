@@ -12,9 +12,8 @@ local:
 #   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
 #   region: <%= ENV['AWS_REGION'] %>
 #   bucket: <%= ENV['AWS_BUCKET'] %>
-
-# google:
-#   service: GCS
-#   project: <%= ENV['GCP_PROJECT'] %>
-#   credentials: <%= ENV['GCP_CREDENTIALS'] %>
-#   bucket: <%= ENV['GCP_BUCKET'] %>
+google:
+  service: GCS
+  project: <%= ENV['GCP_PROJECT'] %>
+  credentials: <%= ENV['GCP_CREDENTIALS'] %>
+  bucket: <%= ENV['GCP_BUCKET'] %>
