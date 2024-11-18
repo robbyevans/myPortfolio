@@ -1,11 +1,13 @@
 test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
+
 local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
-# google:
-#   service: GCS
-#   project: "<%= ENV['GCP_PROJECT'] %>"
-#   credentials: "<%= ENV['GCP_CREDENTIALS'] %>"
-#   bucket: "<%= ENV['GCP_BUCKET'] %>"
+
+google:
+  service: GCS
+  project: "<%= ENV['GCP_PROJECT'] %>"
+  credentials: <%= JSON.parse(Base64.decode64(ENV['GCP_CREDENTIALS'])) %>
+  bucket: "<%= ENV['GCP_BUCKET'] %>"
