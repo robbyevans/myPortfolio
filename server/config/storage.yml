@@ -1,3 +1,5 @@
+# config/storage.yml
+
 test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
@@ -9,5 +11,5 @@ local:
 google:
   service: GCS
   project: "<%= ENV['GCP_PROJECT'] %>"
-  credentials: "<%= ENV['GCP_CREDENTIALS'] %>"
+  credentials: <%= ENV['GCP_CREDENTIALS'] %>
   bucket: "<%= ENV['GCP_BUCKET'] %>"
