@@ -1,5 +1,3 @@
-# config/storage.yml
-
 test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
@@ -7,9 +5,16 @@ test:
 local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
-
-google:
-  service: GCS
-  project: "<%= ENV['GCP_PROJECT'] %>"
-  credentials: <%= ENV['GCP_CREDENTIALS'] %>
-  bucket: "<%= ENV['GCP_BUCKET'] %>"
+# Uncomment and configure cloud services as needed for production
+amazon:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: <%= ENV['AWS_REGION'] %>
+  bucket: <%= ENV['AWS_BUCKET'] %>
+  public: true
+# google:
+#   service: GCS
+#   project: <%= ENV['GCP_PROJECT'] %>
+#   credentials: <%= ENV['GCP_CREDENTIALS'] %>
+#   bucket: <%= ENV['GCP_BUCKET'] %>
