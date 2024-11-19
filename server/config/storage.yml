@@ -1,11 +1,10 @@
+---
 test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
-
 local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
-# Uncomment and configure cloud services as needed for production
 amazon:
   service: S3
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
@@ -13,8 +12,3 @@ amazon:
   region: <%= ENV['AWS_REGION'] %>
   bucket: <%= ENV['AWS_BUCKET'] %>
   public: true
-# google:
-#   service: GCS
-#   project: <%= ENV['GCP_PROJECT'] %>
-#   credentials: <%= ENV['GCP_CREDENTIALS'] %>
-#   bucket: <%= ENV['GCP_BUCKET'] %>
