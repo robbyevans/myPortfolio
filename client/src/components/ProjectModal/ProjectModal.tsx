@@ -77,7 +77,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
         </S.ImagesWrapper>
         <S.ModalInfo onClick={handleClick}>
           <h3>{project.name}</h3>
-          <p>{project.description}</p>
+          <S.Description>{project.description}</S.Description>
           <S.LiveLink
             href={project.live_link}
             target="_blank"

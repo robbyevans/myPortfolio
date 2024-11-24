@@ -25,7 +25,15 @@ export const ModalContent = styled.div`
   cursor: pointer;
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  position: relative;
+
+  @media (max-width: 768px) {
+    width: 95%;
+    padding: 15px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
 `;
 
 export const CarouselContainer = styled.div`
@@ -42,7 +50,14 @@ export const CarouselImage = styled.img`
   height: 300px;
   object-fit: cover;
   border-radius: 8px 8px 0 0;
-  transition: opacity 0.5s ease-in-out;
+
+  @media (max-width: 768px) {
+    height: 250px;
+  }
+
+  @media (max-width: 480px) {
+    height: 200px;
+  }
 `;
 
 export const CarouselButton = styled.button<{ $orientation: TOrientation }>`
@@ -107,10 +122,21 @@ export const LiveLink = styled.a`
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
-  transition: background-color 0.3s;
+  font-size: 1rem;
+  text-align: center;
 
   &:hover {
     background-color: ${(props) => props.theme.colors.cardHover};
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+    padding: 6px 10px;
   }
 `;
 
@@ -120,4 +146,18 @@ export const closeButton = styled.button`
   right: 1px;
   background: none;
   border: none;
+`;
+
+export const Description = styled.p`
+  font-size: 1rem;
+  color: ${(props) => props.theme.colors.text};
+
+  @media (max-width: 768px) {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    text-overflow: ellipsis;
+  }
 `;
