@@ -4,9 +4,8 @@ import styled from "styled-components";
 import { useNavigationHistory } from "../../context/NavigationHistoryContext";
 
 const BreadcrumbContainer = styled.div`
-  background-color: ${(props) => props.theme.colors.cardBackground};
+  background-color: ${(props) => props.theme.colors.backgroundColor};
   padding: 10px;
-  border-bottom: 1px solid ${(props) => props.theme.colors.border};
   font-size: 0.9rem;
   color: ${(props) => props.theme.colors.text};
 `;

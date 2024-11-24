@@ -142,8 +142,9 @@ export const LiveLink = styled.a`
 
 export const closeButton = styled.button`
   position: absolute;
-  top: 6px;
-  right: 1px;
+  top: -20px;
+  right: auto;
+  color: ${(props) => props.theme.colors.text};
   background: none;
   border: none;
 `;
