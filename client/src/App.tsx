@@ -5,6 +5,7 @@ import PortfolioPage from "./pages/portfolioPage/PortfolioPage";
 import AdminPageContainer from "./containers/AdminPageContainer";
 import AuthContainer from "./containers/AuthContainer";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
+import { NavigationHistoryProvider } from "./context/NavigationHistoryContext";
 // import { logAllowedOrigins } from "./utils/debug";
 
 interface AppProps {
@@ -14,25 +15,29 @@ interface AppProps {
 
 const App: React.FC<AppProps> = ({ toggleTheme, theme }) => {
   // useEffect(() => {
-  //   logAllowedOrigins(); // Fetch and log allowed origins on mount
-  // }, []);
+  //       logAllowedOrigins(); // Fetch and log allowed origins on mount
+  //   }, []);
 
   return (
     <>
       <GlobalStyle />
       <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={<PortfolioPage toggleTheme={toggleTheme} theme={theme} />}
-          />
-          <Route path="/login" element={<AuthContainer />} />
-          <Route path="/signup" element={<AuthContainer />} />
+        <NavigationHistoryProvider>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <PortfolioPage toggleTheme={toggleTheme} theme={theme} />
+              }
+            />
+            <Route path="/login" element={<AuthContainer />} />
+            <Route path="/signup" element={<AuthContainer />} />
 
-          <Route element={<RequireAuth />}>
-            <Route path="/admin" element={<AdminPageContainer />} />
-          </Route>
-        </Routes>
+            <Route element={<RequireAuth />}>
+              <Route path="/admin" element={<AdminPageContainer />} />
+            </Route>
+          </Routes>
+        </NavigationHistoryProvider>
       </Router>
     </>
   );

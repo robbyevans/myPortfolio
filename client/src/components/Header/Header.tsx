@@ -1,6 +1,7 @@
 import React from "react";
 import * as S from "./styles";
 import { FaSun, FaMoon } from "react-icons/fa";
+import Breadcrumb from "../Breadcrumb/BreadCrumb";
 import { RoughNotation } from "react-rough-notation";
 
 interface HeaderProps {
@@ -11,6 +12,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ toggleTheme, theme }) => {
   return (
     <S.Header data-testid="header-component">
+      <Breadcrumb />
       <S.ThemeToggle onClick={toggleTheme}>
         {theme === "light" ? (
           <FaMoon color="#333" />
