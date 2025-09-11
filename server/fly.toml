@@ -1,6 +1,6 @@
 app = 'server-old-fog-1713'
 primary_region = 'fra'
-console_command = '/app/bin/rails console'   # <= fix
+console_command = '/app/bin/rails console'
 
 [build]
 
@@ -24,8 +24,7 @@ console_command = '/app/bin/rails console'   # <= fix
   cpu_kind = 'shared'
   cpus = 1
 
-# For a Rails API you usually don't need statics; remove this block
-# If you keep it, use an absolute path (no env vars):
+# Remove statics for API apps, or if you keep it:
 # [[statics]]
 #   guest_path = '/app/public'
 #   url_prefix = '/'
