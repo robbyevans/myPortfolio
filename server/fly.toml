@@ -1,0 +1,31 @@
+app = 'server-old-fog-1713'
+primary_region = 'fra'
+console_command = '/app/bin/rails console'   # <= fix
+
+[build]
+
+[env]
+  PORT = "8080"
+  RAILS_LOG_TO_STDOUT = "true"
+
+[deploy]
+  release_command = './bin/rails db:prepare'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+
+# For a Rails API you usually don't need statics; remove this block
+# If you keep it, use an absolute path (no env vars):
+# [[statics]]
+#   guest_path = '/app/public'
+#   url_prefix = '/'

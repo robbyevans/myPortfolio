@@ -1,0 +1,41 @@
+# VCS
+.git
+.gitignore
+.gitattributes
+
+# Logs & temp
+log/*
+tmp/*
+tmp/**/*
+!tmp/.keep
+
+# Bundler & vendor cache
+.bundle
+vendor/bundle
+
+# Node/yarn noise (in case present)
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env & secrets (NEVER bake into the image)
+.env
+.env.*
+config/master.key
+config/credentials.yml.enc
+
+# Active Storage local files (we use Tigris in prod)
+storage/*
+!storage/.keep
+
+# Tests/coverage
+spec
+test
+coverage
+
+# OS/editor junk
+.DS_Store
+
+# If a copy of the frontend ever sits under server/, don’t send it
+client/

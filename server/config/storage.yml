@@ -11,3 +11,12 @@ amazon:
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   region: <%= ENV['AWS_REGION'] %>
   bucket: <%= ENV['AWS_BUCKET'] %>
+
+tigris:
+  service: S3
+  bucket: <%= ENV.fetch("BUCKET_NAME") %>
+  access_key_id: <%= ENV.fetch("AWS_ACCESS_KEY_ID") %>
+  secret_access_key: <%= ENV.fetch("AWS_SECRET_ACCESS_KEY") %>
+  region: <%= ENV.fetch("AWS_REGION", "auto") %>
+  endpoint: <%= ENV.fetch("AWS_ENDPOINT_URL_S3") %> # https://fly.storage.tigris.dev
+  force_path_style: false
