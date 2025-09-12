@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_14_090018) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_06_065959) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,96 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_14_090018) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "admins", force: :cascade do |t|
+    t.string "email"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "role", default: "admin", null: false
+    t.string "auth_token"
+    t.string "name"
+    t.string "phone_number"
+    t.boolean "is_notifications_allowed", default: false
+    t.boolean "is_terms_and_conditions_agreed", default: false
+    t.string "device_token"
+    t.string "email_confirmation_code"
+    t.datetime "email_confirmation_code_sent_at"
+    t.datetime "email_confirmed_at"
+    t.boolean "is_email_verified", default: false, null: false
+    t.string "reset_password_code"
+    t.datetime "reset_password_sent_at"
+    t.bigint "manager_id"
+    t.boolean "can_view_properties", default: false, null: false
+    t.boolean "can_create_properties", default: false, null: false
+    t.boolean "can_update_properties", default: false, null: false
+    t.boolean "can_delete_properties", default: false, null: false
+    t.boolean "can_view_houses", default: false, null: false
+    t.boolean "can_create_houses", default: false, null: false
+    t.boolean "can_update_houses", default: false, null: false
+    t.boolean "can_delete_houses", default: false, null: false
+    t.boolean "can_view_tenants", default: false, null: false
+    t.boolean "can_create_tenants", default: false, null: false
+    t.boolean "can_update_tenants", default: false, null: false
+    t.boolean "can_terminate_leases", default: false, null: false
+    t.boolean "can_view_payments", default: false, null: false
+    t.boolean "can_record_payments", default: false, null: false
+    t.boolean "can_withdraw_funds", default: false, null: false
+    t.boolean "can_send_notifications", default: false, null: false
+    t.boolean "can_view_notification_history", default: false, null: false
+    t.index ["email_confirmation_code"], name: "index_admins_on_email_confirmation_code"
+    t.index ["manager_id"], name: "index_admins_on_manager_id"
+    t.index ["reset_password_code"], name: "index_admins_on_reset_password_code"
+  end
+
+  create_table "houses", force: :cascade do |t|
+    t.string "house_number"
+    t.decimal "payable_rent"
+    t.bigint "tenant_id"
+    t.bigint "property_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "payable_deposit", precision: 10, scale: 2
+    t.string "account_number"
+    t.index ["account_number"], name: "index_houses_on_account_number", unique: true
+    t.index ["property_id"], name: "index_houses_on_property_id"
+    t.index ["tenant_id"], name: "index_houses_on_tenant_id"
+  end
+
+  create_table "ledger_entries", force: :cascade do |t|
+    t.bigint "admin_id", null: false
+    t.bigint "wallet_id", null: false
+    t.string "transaction_type", null: false
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.decimal "balance_after", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "transaction_id"
+    t.string "property_uid"
+    t.string "house_number"
+    t.index ["admin_id"], name: "index_ledger_entries_on_admin_id"
+    t.index ["wallet_id"], name: "index_ledger_entries_on_wallet_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.string "transaction_id", null: false
+    t.string "bill_ref_number", null: false
+    t.string "msisdn", null: false
+    t.decimal "transaction_amount", precision: 10, scale: 2, null: false
+    t.string "transaction_type", null: false
+    t.datetime "payment_date", null: false
+    t.string "short_code", null: false
+    t.string "status", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "property_uid"
+    t.string "house_number"
+    t.boolean "settled", default: false
+    t.string "property_id"
+    t.index ["bill_ref_number", "msisdn"], name: "index_payments_on_bill_ref_number_and_msisdn"
+    t.index ["property_id"], name: "index_payments_on_property_id"
+    t.index ["transaction_id"], name: "index_payments_on_transaction_id", unique: true
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -49,6 +139,63 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_14_090018) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position"
+  end
+
+  create_table "properties", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "admin_id"
+    t.string "location"
+    t.string "address"
+    t.string "property_uid"
+    t.index ["admin_id"], name: "index_properties_on_admin_id"
+    t.index ["property_uid"], name: "index_properties_on_property_uid", unique: true
+  end
+
+  create_table "tenant_house_agreements", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "house_id", null: false
+    t.decimal "deposit", precision: 10, scale: 2, default: "0.0"
+    t.decimal "monthly_rent", precision: 10, scale: 2, default: "0.0"
+    t.decimal "balance", precision: 10, scale: 2, default: "0.0"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string "status", default: "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "property_id", null: false
+    t.index ["house_id"], name: "index_tenant_house_agreements_on_house_id"
+    t.index ["property_id"], name: "index_tenant_house_agreements_on_property_id"
+    t.index ["tenant_id"], name: "index_tenant_house_agreements_on_tenant_id"
+  end
+
+  create_table "tenant_notification_histories", force: :cascade do |t|
+    t.string "subject", null: false
+    t.text "body", null: false
+    t.datetime "sent_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "admin_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_tenant_notification_histories_on_admin_id"
+  end
+
+  create_table "tenant_notification_recipients", force: :cascade do |t|
+    t.bigint "tenant_notification_history_id", null: false
+    t.bigint "tenant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tenant_id"], name: "index_tenant_notification_recipients_on_tenant_id"
+    t.index ["tenant_notification_history_id"], name: "idx_tenant_notif_recipient_history"
+  end
+
+  create_table "tenants", force: :cascade do |t|
+    t.string "name"
+    t.string "phone_number"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "national_id", default: "unknown", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -59,6 +206,38 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_14_090018) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "wallets", force: :cascade do |t|
+    t.bigint "admin_id", null: false
+    t.decimal "balance", precision: 10, scale: 2, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_wallets_on_admin_id"
+  end
+
+  create_table "withdrawals", force: :cascade do |t|
+    t.bigint "admin_id", null: false
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.string "status", default: "pending", null: false
+    t.text "details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_withdrawals_on_admin_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "admins", "admins", column: "manager_id"
+  add_foreign_key "houses", "properties"
+  add_foreign_key "houses", "tenants"
+  add_foreign_key "ledger_entries", "admins"
+  add_foreign_key "ledger_entries", "wallets"
+  add_foreign_key "properties", "admins"
+  add_foreign_key "tenant_house_agreements", "houses"
+  add_foreign_key "tenant_house_agreements", "properties"
+  add_foreign_key "tenant_house_agreements", "tenants"
+  add_foreign_key "tenant_notification_histories", "admins"
+  add_foreign_key "tenant_notification_recipients", "tenant_notification_histories"
+  add_foreign_key "tenant_notification_recipients", "tenants"
+  add_foreign_key "wallets", "admins"
+  add_foreign_key "withdrawals", "admins"
 end

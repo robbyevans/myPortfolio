@@ -26,25 +26,25 @@ projects = [
   {
     title: 'Kodi (Property Management System)',
     description: 'Multi-tenant property management platform for landlords to manage properties, units, tenants, and rent payments. Real-time payment notifications with ActionCable/Redis; automated monthly billing with Sidekiq.',
-    live_url: 'https://kodi-2ti.pages.dev/',
+    live_link: 'https://kodi-2ti.pages.dev/',
     tech_stack: %w[React TypeScript Styled-Components Ruby-on-Rails Redis Sidekiq ActionCable]
   },
   {
     title: 'TurfZone',
     description: 'Booking marketplace for football pitches with search filters, booking workflows, and payment integration.',
-    live_url: 'https://turfzone.vercel.app/#',
+    live_link: 'https://turfzone.vercel.app/#',
     tech_stack: %w[React Ruby-on-Rails PostgreSQL]
   },
   {
     title: 'Rick-Morty Explorer',
     description: 'Single-page app consuming the Rick and Morty API with infinite scroll, character filtering, and dynamic routing.',
-    live_url: 'https://rickmorty.pages.dev/',
+    live_link: 'https://rickmorty.pages.dev/',
     tech_stack: %w[React JavaScript SCSS]
   },
   {
     title: 'Personal Portfolio',
     description: 'Personal portfolio showcasing projects and posts; optimized for SEO and mobile-first performance.',
-    live_url: 'https://kiprop.pages.dev/',
+    live_link: 'https://kiprop.pages.dev/',
     tech_stack: %w[React JavaScript]
   }
 ]
