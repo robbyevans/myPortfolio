@@ -1,6 +1,6 @@
 app = 'server-old-fog-1713'
 primary_region = 'fra'
-console_command = '/app/bin/rails console'
+console_command = '/app/bin/rails console'    # <= fix path
 
 [build]
 
@@ -16,7 +16,7 @@ console_command = '/app/bin/rails console'
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
-  min_machines_running = 0
+  min_machines_running = 1
   processes = ['app']
 
 [[vm]]
@@ -24,7 +24,7 @@ console_command = '/app/bin/rails console'
   cpu_kind = 'shared'
   cpus = 1
 
-# Remove statics for API apps, or if you keep it:
+# API app: remove statics (or set guest_path = "/app/public")
 # [[statics]]
 #   guest_path = '/app/public'
 #   url_prefix = '/'

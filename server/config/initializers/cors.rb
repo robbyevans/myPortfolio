@@ -1,10 +1,13 @@
+# Be safe if CLIENT_ORIGIN is empty: no origins allowed instead of crashing.
+origins_list = ENV.fetch('CLIENT_ORIGIN', '')
+origins_arr  = origins_list.split(',').map(&:strip).reject(&:empty?)
+
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins ENV.fetch('CLIENT_ORIGIN', '').split(',')
-
+    origins(*origins_arr)
     resource '*',
-      headers: :any,
-      expose: ['Content-Disposition', 'Content-Type'],
-      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+             headers: :any,
+             methods: %i[get post put patch delete options head],
+             expose: %w[Authorization]
   end
 end
