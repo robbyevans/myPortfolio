@@ -1,13 +1,11 @@
-# Be safe if CLIENT_ORIGIN is empty: no origins allowed instead of crashing.
-origins_list = ENV.fetch('CLIENT_ORIGIN', '')
-origins_arr  = origins_list.split(',').map(&:strip).reject(&:empty?)
-
+# Be sure to restart after changing secrets
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins(*origins_arr)
+    origins(*ENV.fetch('CLIENT_ORIGIN', '').split(',').map(&:strip))
     resource '*',
              headers: :any,
              methods: %i[get post put patch delete options head],
-             expose: %w[Authorization]
+             expose: %w[Authorization],
+             credentials: false
   end
 end
