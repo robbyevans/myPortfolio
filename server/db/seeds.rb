@@ -1,67 +1,64 @@
-# # db/seeds.rb
+# db/seeds.rb
+# Creates basic Project records without assuming exact column names.
+# It will:
+#  - Prefer a unique key on :title (fallback to :name if that's what your model uses)
+#  - Only set attributes that actually exist on your Project model
+#  - Be safely re-runnable (first_or_initialize when a key column is present)
 
-# require 'open-uri'
+raise 'Project model not found' unless defined?(Project)
 
-# Project.destroy_all
+# Figure out which column your model uses for the title/name
+key_col = (%w[title name] & Project.column_names).first
 
-# project_data = [
-#   {
-#     name: "Weather App",
-#     description: "A web application that provides weather forecasts.",
-#     image_files: ["weather-app.png"],
-#     live_link: "https://weather-app.example.com",
-#   },
-#   {
-#     name: "Todo List",
-#     description: "An app to manage your daily tasks.",
-#     image_files: ["todo-list.png"],
-#     live_link: "https://todo-list.example.com",
-#   },
-#   {
-#     name: "Chat Application",
-#     description: "A real-time chat application using WebSockets.",
-#     image_files: ["chat-app.png"],
-#     live_link: "https://chat-app.example.com",
-#   },
-#   {
-#     name: "E-commerce Platform",
-#     description: "An online marketplace for buying and selling products.",
-#     image_files: ["e-commerce.png"],
-#     live_link: "https://e-commerce.example.com",
-#   },
-#   {
-#     name: "Portfolio Website",
-#     description: "A personal portfolio to showcase projects and skills.",
-#     image_files: ["portfolio.png"],
-#     live_link: "https://portfolio.example.com",
-#   },
-#   {
-#     name: "Blog Platform",
-#     description: "A platform for creating and sharing blog posts.",
-#     image_files: ["blog-platform.png"],
-#     live_link: "https://blog-platform.example.com",
-#   },
-# ]
+def apply_attrs(record, attrs)
+  # If your model uses :name instead of :title, this maps it automatically
+  alias_attrs = attrs.dup
+  alias_attrs[:name]  = attrs[:title] if attrs[:title]
+  alias_attrs[:title] = attrs[:name]  if attrs[:name]
 
-# project_data.each do |data|
-#   project = Project.create!(
-#     name: data[:name],
-#     description: data[:description],
-#     live_link: data[:live_link]
-#   )
+  alias_attrs.each do |k, v|
+    setter = "#{k}="
+    record.public_send(setter, v) if record.respond_to?(setter)
+  end
+end
 
-#   data[:image_files].each do |filename|
-#     file_path = Rails.root.join('db', 'seeds', 'images', filename)
-#     if File.exist?(file_path)
-#       project.images.attach(
-#         io: File.open(file_path),
-#         filename: filename,
-#         content_type: 'image/png' # Adjust the content type as needed
-#       )
-#     else
-#       puts "File not found: #{file_path}"
-#     end
-#   end
-# end
+projects = [
+  {
+    title: 'Kodi (Property Management System)',
+    description: 'Multi-tenant property management platform for landlords to manage properties, units, tenants, and rent payments. Real-time payment notifications with ActionCable/Redis; automated monthly billing with Sidekiq.',
+    live_url: 'https://kodi-2ti.pages.dev/',
+    tech_stack: %w[React TypeScript Styled-Components Ruby-on-Rails Redis Sidekiq ActionCable]
+  },
+  {
+    title: 'TurfZone',
+    description: 'Booking marketplace for football pitches with search filters, booking workflows, and payment integration.',
+    live_url: 'https://turfzone.vercel.app/#',
+    tech_stack: %w[React Ruby-on-Rails PostgreSQL]
+  },
+  {
+    title: 'Rick-Morty Explorer',
+    description: 'Single-page app consuming the Rick and Morty API with infinite scroll, character filtering, and dynamic routing.',
+    live_url: 'https://rickmorty.pages.dev/',
+    tech_stack: %w[React JavaScript SCSS]
+  },
+  {
+    title: 'Personal Portfolio',
+    description: 'Personal portfolio showcasing projects and posts; optimized for SEO and mobile-first performance.',
+    live_url: 'https://kiprop.pages.dev/',
+    tech_stack: %w[React JavaScript]
+  }
+]
 
-# puts "Seeded #{Project.count} projects."
+projects.each do |attrs|
+  record =
+    if key_col
+      Project.where(key_col => attrs[:title]).first_or_initialize
+    else
+      Project.new
+    end
+
+  apply_attrs(record, attrs)
+  record.save!
+end
+
+puts "Seeded #{projects.size} projects."
