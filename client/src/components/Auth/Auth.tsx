@@ -1,6 +1,6 @@
 import React from "react";
 import * as S from "./styles";
-import { RoughNotation } from "react-rough-notation";
+// import { RoughNotation } from "react-rough-notation";
 
 interface AuthProps {
   view: "login" | "signup";
@@ -20,22 +20,21 @@ const Auth: React.FC<AuthProps> = ({
   view,
   email,
   password,
-  confirmPassword,
+  // confirmPassword,
   loading,
   error,
   onEmailChange,
   onPasswordChange,
-  onConfirmPasswordChange,
+  // onConfirmPasswordChange,
   onSubmit,
   onSwitchView,
 }) => {
-  const savedTheme = localStorage.getItem("portfolioTheme");
-  console.log("loading", loading);
+  // const savedTheme = localStorage.getItem("portfolioTheme");
 
   return (
     <S.AuthContainer>
       <S.AuthBox>
-        <S.Title>{view === "login" ? "Login" : "Sign Up"}</S.Title>
+        <S.Title>Login</S.Title>
         {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
         <S.Form onSubmit={onSubmit}>
           <S.Input
@@ -52,7 +51,7 @@ const Auth: React.FC<AuthProps> = ({
             onChange={(e) => onPasswordChange(e.target.value)}
             required
           />
-          {view === "signup" && (
+          {/* {view === "signup" && (
             <S.Input
               type="password"
               placeholder="Confirm Password"
@@ -60,7 +59,7 @@ const Auth: React.FC<AuthProps> = ({
               onChange={(e) => onConfirmPasswordChange(e.target.value)}
               required
             />
-          )}
+          )} */}
           <S.Button type="submit" disabled={loading}>
             {loading
               ? "Please wait..."
@@ -70,7 +69,7 @@ const Auth: React.FC<AuthProps> = ({
           </S.Button>
         </S.Form>
         <S.SwitchView onClick={onSwitchView}>
-          {view === "login" ? (
+          {/* {view === "login" ? (
             <>
               {"Don't have an account? "}
               <RoughNotation
@@ -98,7 +97,7 @@ const Auth: React.FC<AuthProps> = ({
                 Login
               </RoughNotation>
             </>
-          )}
+          )} */}
         </S.SwitchView>
       </S.AuthBox>
     </S.AuthContainer>
