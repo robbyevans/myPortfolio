@@ -38,6 +38,7 @@ export const ButtonsWrapper = styled.div`
   display: flex;
   gap: 8px;
   min-width: 135px;
+  justify-content: flex-end;
 `;
 
 export const IconButton = styled.button`
