@@ -34,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, theme }) => {
           >
             Frontend Software Engineer
           </RoughNotation>{" "}
-          based in Nairobi. <br /> I'm currently working at{" "}
+          based in Sydney. <br /> I'm currently working at{" "}
           <RoughNotation
             type="underline"
             color={theme === "light" ? "#8a1515" : "#33e82d"}
